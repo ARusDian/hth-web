@@ -30,7 +30,7 @@ class UserController extends Controller
             ->whereColumns($request->get('columnFilters'))
             ->orderBy('created_at', 'desc')
             ->paginate($request->get('perPage') ?? 10);
-        return Inertia::render('Admin/User/Index', [
+        return Inertia::render('Admin/Authorization/User/Index', [
             'users' => $user,
         ]);
     }
@@ -43,7 +43,7 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::all();
-        return Inertia::render('Admin/User/Create', [
+        return Inertia::render('Admin/Authorization/User/Create', [
             'roles' => $roles,
         ]);
     }
@@ -57,7 +57,8 @@ class UserController extends Controller
     public function store(Request $request, bool $is_import = false)
     {
         //
-        return DB::transaction(function () use ($request, $is_import) {
+        return DB::transaction(function () use ($request, $is_import)
+        {
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
@@ -77,22 +78,27 @@ class UserController extends Controller
                 'gender' => $validated['gender'],
             ]);
 
-            if (isset($request['photo']['file'])) {
+            if (isset($request['photo']['file']))
+            {
                 $user->updateProfilePhoto($request['photo']['file']);
             }
 
-            if (isset($validated['learning_categories'])) {
+            if (isset($validated['learning_categories']))
+            {
                 $user->learningCategories()->attach(
-                    array_map(function ($learning_category) {
+                    array_map(function ($learning_category)
+                    {
                         return $learning_category['id'];
                     }, $validated['learning_categories'] ?? []),
                 );
             }
 
-            foreach ($validated['roles'] as $role) {
+            foreach ($validated['roles'] as $role)
+            {
                 $user->assignRole($role['id']);
             }
-            if (!$is_import) {
+            if (!$is_import)
+            {
                 activity()
                     ->performedOn($user)
                     ->causedBy(Auth::user())
@@ -120,7 +126,7 @@ class UserController extends Controller
                 'roles',
             ])
             ->find($id);
-        return Inertia::render('Admin/User/Show', [
+        return Inertia::render('Admin/Authorization/User/Show', [
             'user_data' => $user,
         ]);
     }
@@ -141,7 +147,7 @@ class UserController extends Controller
             ])
             ->find($id);
         $roles = Role::all();
-        
+
         return Inertia::render('Admin/User/Edit', [
             'user_data' => $user,
             'roles' => $roles,
@@ -149,7 +155,7 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified resource in storx   age.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -158,7 +164,8 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         //
-        return DB::transaction(function () use ($request, $id) {
+        return DB::transaction(function () use ($request, $id)
+        {
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|',
@@ -180,11 +187,13 @@ class UserController extends Controller
                 'gender' => $validated['gender'],
             ]);
 
-            if (isset($request['photo']['file'])) {
+            if (isset($request['photo']['file']))
+            {
                 $user->updateProfilePhoto($request['photo']['file']);
             }
 
-            if (isset($validated['password'])) {
+            if (isset($validated['password']))
+            {
                 $user->update([
                     'password' => Hash::make($validated['password']),
                 ]);
@@ -239,7 +248,8 @@ class UserController extends Controller
 
     public function forceDelete($id)
     {
-        return DB::transaction(function () use ($id) {
+        return DB::transaction(function () use ($id)
+        {
             $user = User::withTrashed()
                 ->with([
                     'userLearningPackets',
@@ -248,7 +258,8 @@ class UserController extends Controller
                 ])
                 ->findOrFail($id);
 
-            if ($user->hasRole('super-admin')) {
+            if ($user->hasRole('super-admin'))
+            {
                 return redirect()
                     ->route('user.show', $id)
                     ->banner('Superadmin Cannot Be Deleted');
@@ -277,17 +288,20 @@ class UserController extends Controller
         $request->validate([
             'import_file' => 'required',
         ]);
-        try {
+        try
+        {
             Excel::import(
                 new UsersImport(),
                 $request->file('import_file.file')->store('temp'),
                 null,
                 ExcelExcel::XLSX,
             );
-        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
-            // TODO: Return the errors to view
+        }
+        catch (\Maatwebsite\Excel\Validators\ValidationException $e)
+        {
             $import_failures = $e->failures();
-            $errors = array_map(function ($import_failure) {
+            $errors = array_map(function ($import_failure)
+            {
                 return [
                     'row' => $import_failure->row(),
                     'attribute' => $import_failure->attribute(),
@@ -330,5 +344,5 @@ class UserController extends Controller
         );
     }
 
-    
+
 }

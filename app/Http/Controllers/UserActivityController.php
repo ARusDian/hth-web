@@ -12,7 +12,7 @@ class UserActivityController extends Controller
     //
     public function index(Request $request)
     {
-        return Inertia::render('Admin/UserActivity/Index', [
+        return Inertia::render('Admin/Authorization/UserActivity/Index', [
             'activities' => fn() => Activity::with(['causer'])
                 ->whereColumns($request->get('columnFilters'))
                 ->orderBy('created_at', 'desc')
