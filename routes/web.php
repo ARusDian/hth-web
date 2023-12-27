@@ -4,6 +4,7 @@ use App\Actions\Fortify\UserProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DevController;
 use App\Http\Controllers\DocumentFileController;
+use App\Http\Controllers\ReasonController;
 use App\Http\Controllers\SymptomController;
 use App\Http\Controllers\TreatmentController;
 use App\Http\Controllers\UserActivityController;
@@ -41,6 +42,7 @@ Route::middleware([
 
             Route::resource("symptom", SymptomController::class);
             Route::resource("treatment", TreatmentController::class);
+            Route::resource("reason", ReasonController::class);
 
             Route::middleware(["role:super-admin"])->group(function () {
                 Route::resource("/user", UserController::class);

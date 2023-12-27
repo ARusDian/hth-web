@@ -198,6 +198,17 @@ export default function DashboardAdminLayout({
             Perawatan
           </ResponsiveNavLink>
         </li>
+        <li>
+          <ResponsiveNavLink
+            href={route('reason.index')}
+            active={route().current()?.startsWith('reason')}
+          >
+            <span className={'mr-4'}>
+              <FolderSharedIcon fontSize="large" />
+            </span>
+            Penyebab Masalah
+          </ResponsiveNavLink>
+        </li>
         {user.roles.some(role => role.name === 'super-admin') && (
           <>
             <Divider >

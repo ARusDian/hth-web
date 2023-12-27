@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             SymptomSeeder::class,
             TreatmentSeeder::class,
+            ReasonSeeder::class,
         ]);
     }
 }
