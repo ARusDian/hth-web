@@ -178,10 +178,13 @@ export default function DashboardAdminLayout({
         </li>
         {user.roles.some(role => role.name === 'super-admin') && (
           <>
+            <Divider >
+              Admin
+            </Divider>
             <li>
               <ResponsiveNavLink
                 href={route('user.index')}
-                active={route().current('user.index')}
+                active={route().current()?.startsWith('user')}
               >
                 <span className={'mr-4'}>
                   <ManageAccountsIcon fontSize="large" />
@@ -192,7 +195,7 @@ export default function DashboardAdminLayout({
             <li>
               <ResponsiveNavLink
                 href={route('user-activity')}
-                active={route().current('user-activity')}
+                active={route().current()?.startsWith('user-activity')}
               >
                 <span className={'mr-4'}>
                   <ManageHistoryIcon fontSize="large" />
