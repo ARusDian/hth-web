@@ -176,6 +176,17 @@ export default function DashboardAdminLayout({
             Dashboard
           </ResponsiveNavLink>
         </li>
+        <li>
+          <ResponsiveNavLink
+            href={route('symptom.index')}
+            active={route().current()?.startsWith('symptom')}
+          >
+            <span className={'mr-4'}>
+              <MenuBookIcon fontSize="large" />
+            </span>
+            Gejala
+          </ResponsiveNavLink>
+        </li>
         {user.roles.some(role => role.name === 'super-admin') && (
           <>
             <Divider >
