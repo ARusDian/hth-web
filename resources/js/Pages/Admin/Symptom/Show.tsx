@@ -3,10 +3,10 @@ import route from 'ziggy-js';
 import { router } from '@inertiajs/react';
 import AdminShowLayout from '@/Layouts/Admin/AdminShowLayout';
 import { useConfirm } from 'material-ui-confirm';
-import { SypmtomModel } from '@/Models/Symptom';
+import { SymptomModel } from '@/Models/Symptom';
 
 interface Props {
-  symptom: SypmtomModel;
+  symptom: SymptomModel;
 }
 
 export default function Show(props: Props) {

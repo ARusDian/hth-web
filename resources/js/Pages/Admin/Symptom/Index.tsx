@@ -18,11 +18,11 @@ import { Button, Modal, TextField } from '@mui/material';
 import { router, usePage } from '@inertiajs/react';
 import InputError from '@/Components/Jetstream/InputError';
 import ReactLoading from 'react-loading';
-import { BaseSymptomModel, SypmtomModel } from '@/Models/Symptom';
+import { BaseSymptomModel, SymptomModel } from '@/Models/Symptom';
 
 interface Props {
   symptoms: {
-    data: SypmtomModel[];
+    data: SymptomModel[];
     per_page: number;
     total: number;
     current_page: number;
@@ -72,7 +72,7 @@ export default function Index(props: Props) {
     });
   }, [pagination.pageIndex, pagination.pageSize, columnFilters]);
 
-  const dataColumns = React.useMemo<MRT_ColumnDef<SypmtomModel>[]>(
+  const dataColumns = React.useMemo<MRT_ColumnDef<SymptomModel>[]>(
     () => [
       {
         header: 'No',
@@ -88,7 +88,7 @@ export default function Index(props: Props) {
         header: 'Gejala',
       },
 
-    ], []) as MRT_ColumnDef<SypmtomModel>[]
+    ], []) as MRT_ColumnDef<SymptomModel>[]
 
   const table = useMaterialReactTable({
     columns: dataColumns,
