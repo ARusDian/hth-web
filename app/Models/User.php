@@ -28,14 +28,22 @@ class User extends Authenticatable
      * @var string[]
      */
     protected $fillable = [
-        'name',
-        'email',
-        'phone_number',
-        'password',
-        'active_year',
-        'profile_photo_path',
-        'gender',
-        'address',
+    'name',
+    'email',
+    'phone_number',
+    'password',
+    'active_year',
+    'profile_photo_path',
+    'gender',
+    'address',
+    ];
+
+    protected $allowed = [
+    'name',
+    'email',
+    'phone_number',
+    'active_year',
+    'roles.name',
     ];
 
     /**
@@ -44,10 +52,10 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password',
-        'remember_token',
-        'two_factor_recovery_codes',
-        'two_factor_secret',
+    'password',
+    'remember_token',
+    'two_factor_recovery_codes',
+    'two_factor_secret',
     ];
 
     /**
@@ -56,7 +64,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+    'email_verified_at' => 'datetime',
     ];
 
     /**
@@ -73,34 +81,30 @@ class User extends Authenticatable
 
     public function scopeWhereColumns($query, $filters)
     {
-        $allowed = [
-            'name',
-            'email',
-            'phone_number',
-            'active_year',
-            'roles.name',
-        ];
-
-        if (isset($filters)) {
-            foreach (json_decode($filters) as $value) {
+        if (isset($filters))
+        {
+            foreach (json_decode($filters) as $value)
+            {
                 $key = explode('.', $value->id);
 
-                if (!in_array($value->id, $allowed)) {
+                if (!in_array($value->id, $this->allowed))
+                {
                     continue;
                 }
 
-                if (count($key) > 1) {
-                    $query->whereHas($key[0], function ($query) use (
-                        $value,
-                        $key,
-                    ) {
+                if (count($key) > 1)
+                {
+                    $query->whereHas($key[0], function ($query) use ($value, $key, )
+                    {
                         return $query->where(
                             $key[1],
                             'like',
                             '%' . $value->value . '%',
                         );
                     });
-                } else {
+                }
+                else
+                {
                     $query->where($value->id, 'like', "%{$value->value}%");
                 }
             }
