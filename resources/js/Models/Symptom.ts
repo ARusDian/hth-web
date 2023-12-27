@@ -3,6 +3,6 @@ export interface BaseSymptomModel {
     description: string;
 }
 
-export interface SypmtomModel extends BaseSymptomModel{
+export interface SymptomModel extends BaseSymptomModel{
     id: number;
 }

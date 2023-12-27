@@ -187,6 +187,17 @@ export default function DashboardAdminLayout({
             Gejala
           </ResponsiveNavLink>
         </li>
+        <li>
+          <ResponsiveNavLink
+            href={route('treatment.index')}
+            active={route().current()?.startsWith('treatment')}
+          >
+            <span className={'mr-4'}>
+              <InventoryIcon fontSize="large" />
+            </span>
+            Perawatan
+          </ResponsiveNavLink>
+        </li>
         {user.roles.some(role => role.name === 'super-admin') && (
           <>
             <Divider >

@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DevController;
 use App\Http\Controllers\DocumentFileController;
 use App\Http\Controllers\SymptomController;
+use App\Http\Controllers\TreatmentController;
 use App\Http\Controllers\UserActivityController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -39,6 +40,7 @@ Route::middleware([
             Route::get("/guide-book", [DashboardController::class, "guide"])->name("guide");
 
             Route::resource("symptom", SymptomController::class);
+            Route::resource("treatment", TreatmentController::class);
 
             Route::middleware(["role:super-admin"])->group(function () {
                 Route::resource("/user", UserController::class);
