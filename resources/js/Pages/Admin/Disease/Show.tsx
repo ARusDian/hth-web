@@ -36,7 +36,7 @@ export default function Show(props: Props) {
         'Apakah anda yakin ingin menghapus data ini?'
       }
     >
-      <div className="m-8 mb-12 p-7 text-gray-800 shadow-2xl sm:rounded-3xl bg-white shadow-sky-400/50">
+      <div className="m-8 mb-12 p-7 text-gray-800 shadow-2xl sm:rounded-3xl bg-white shadow-sky-400/50 flex flex-col gap-3">
         <table className="w-full">
           <thead>
             <tr className="border-b py-3 border-black">
@@ -62,7 +62,7 @@ export default function Show(props: Props) {
       </div>
       {
         disease.sub_diseases && disease.sub_diseases.length > 0 ? (
-          <div className="m-8 mb-12 p-7 text-gray-800 shadow-2xl sm:rounded-3xl bg-white shadow-sky-400/50">
+          <div className="m-8 mb-12 p-7 text-gray-800 shadow-2xl sm:rounded-3xl bg-white shadow-sky-400/50 flex flex-col gap-3">
             <div className=''>
               <h2 className="text-2xl font-semibold">Sub Penyakit</h2>
             </div>
@@ -84,7 +84,7 @@ export default function Show(props: Props) {
             </table>
           </div>
         ) : (
-          <div className="m-8 mb-12 p-7 text-gray-800 shadow-2xl sm:rounded-3xl bg-white shadow-sky-400/50">
+          <div className="m-8 mb-12 p-7 text-gray-800 shadow-2xl sm:rounded-3xl bg-white shadow-sky-400/50 flex flex-col gap-3">
             <div className=''>
               <h2 className="text-2xl font-semibold">Sub Penyakit</h2>
             </div>
@@ -94,7 +94,7 @@ export default function Show(props: Props) {
           </div>
         )
       }
-      <div className="m-8 mb-12 p-7 text-gray-800 shadow-2xl sm:rounded-3xl bg-white shadow-sky-400/50">
+      <div className="m-8 mb-12 p-7 text-gray-800 shadow-2xl sm:rounded-3xl bg-white shadow-sky-400/50 flex flex-col gap-3">
         <div className=''>
           <h2 className="text-2xl font-semibold">Gejala</h2>
         </div>
@@ -121,7 +121,34 @@ export default function Show(props: Props) {
           </div>
         )}
       </div>
-      <div className="m-8 mb-12 p-7 text-gray-800 shadow-2xl sm:rounded-3xl bg-white shadow-sky-400/50">
+      <div className="m-8 mb-12 p-7 text-gray-800 shadow-2xl sm:rounded-3xl bg-white shadow-sky-400/50 flex flex-col gap-3">
+        <div className=''>
+          <h2 className="text-2xl font-semibold">Kemungkinan Penyebab Masalah</h2>
+        </div>
+        {disease.reasons && disease.reasons.length > 0 ? (
+          <table className="w-full">
+            <thead>
+              <tr className="border-b py-3 border-black">
+                <th className="">No</th>
+                <th className="">Penyebab Masalah</th>
+              </tr>
+            </thead>
+            <tbody>
+              {disease.reasons.map((reason, index) => (
+                <tr className="border-b py-3 border-black" key={index}>
+                  <td className="py-3 text-center">{index + 1}</td>
+                  <td className="py-3 text-center">{reason.description}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <div className="flex flex-col gap-2">
+            <span className="font-semibold">Tidak ada Kemungkinan Penyebab Masalah</span>
+          </div>
+        )}
+      </div>
+      <div className="m-8 mb-12 p-7 text-gray-800 shadow-2xl sm:rounded-3xl bg-white shadow-sky-400/50 flex flex-col gap-3">
         <div className=''>
           <h2 className="text-2xl font-semibold">Perawatan</h2>
         </div>
@@ -148,33 +175,7 @@ export default function Show(props: Props) {
           </div>
         )}
       </div>
-      <div className="m-8 mb-12 p-7 text-gray-800 shadow-2xl sm:rounded-3xl bg-white shadow-sky-400/50">
-        <div className=''>
-          <h2 className="text-2xl font-semibold">Kemungkinan Penyebab Masalah</h2>
-        </div>
-        {disease.reasons && disease.reasons.length > 0 ? (
-          <table className="w-full">
-            <thead>
-              <tr className="border-b py-3 border-black">
-                <th className="">No</th>
-                <th className="">Penyebab Masalah</th>
-              </tr>
-            </thead>
-            <tbody>
-              {disease.reasons.map((reason, index) => (
-                <tr className="border-b py-3 border-black" key={index}>
-                  <td className="py-3 text-center">{index + 1}</td>
-                  <td className="py-3 text-center">{reason.description}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        ) : (
-          <div className="flex flex-col gap-2">
-              <span className="font-semibold">Tidak ada Kemungkinan Penyebab Masalah</span>
-          </div>
-        )}
-      </div>
+
     </AdminShowLayout>
   );
 }

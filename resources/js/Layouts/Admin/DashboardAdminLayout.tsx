@@ -17,14 +17,15 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import Dropdown from '@/Components/Jetstream/Dropdown';
 import DropdownLink from '@/Components/Jetstream/DropdownLink';
 import route from 'ziggy-js';
-import FolderCopyIcon from '@mui/icons-material/FolderCopy';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import FolderSharedIcon from '@mui/icons-material/FolderShared';
 import ManageHistoryIcon from '@mui/icons-material/ManageHistory';
-import MenuBookIcon from '@mui/icons-material/MenuBook';
-import InventoryIcon from '@mui/icons-material/Inventory';
+import ErrorIcon from '@mui/icons-material/Error';
+import MedicationLiquidIcon from '@mui/icons-material/MedicationLiquid';
+import StickyNote2Icon from '@mui/icons-material/StickyNote2';
+import BugReportIcon from '@mui/icons-material/BugReport';
+import CoronavirusIcon from '@mui/icons-material/Coronavirus';
 import StorageIcon from '@mui/icons-material/Storage';
 import TableRowsIcon from '@mui/icons-material/TableRows';
 import BackupIcon from '@mui/icons-material/Backup';
@@ -178,44 +179,11 @@ export default function DashboardAdminLayout({
         </li>
         <li>
           <ResponsiveNavLink
-            href={route('symptom.index')}
-            active={route().current()?.startsWith('symptom')}
-          >
-            <span className={'mr-4'}>
-              <MenuBookIcon fontSize="large" />
-            </span>
-            Gejala
-          </ResponsiveNavLink>
-        </li>
-        <li>
-          <ResponsiveNavLink
-            href={route('treatment.index')}
-            active={route().current()?.startsWith('treatment')}
-          >
-            <span className={'mr-4'}>
-              <InventoryIcon fontSize="large" />
-            </span>
-            Perawatan
-          </ResponsiveNavLink>
-        </li>
-        <li>
-          <ResponsiveNavLink
-            href={route('reason.index')}
-            active={route().current()?.startsWith('reason')}
-          >
-            <span className={'mr-4'}>
-              <FolderSharedIcon fontSize="large" />
-            </span>
-            Penyebab Masalah
-          </ResponsiveNavLink>
-        </li>
-        <li>
-          <ResponsiveNavLink
             href={route('disease.index')}
             active={route().current()?.startsWith('disease')}
           >
             <span className={'mr-4'}>
-              <FolderCopyIcon fontSize="large" />
+              <CoronavirusIcon fontSize="large" />
             </span>
             Penyakit
           </ResponsiveNavLink>
@@ -226,9 +194,42 @@ export default function DashboardAdminLayout({
             active={route().current()?.startsWith('sub-disease')}
           >
             <span className={'mr-4'}>
-              <InventoryIcon fontSize="large" />
+              <BugReportIcon fontSize="large" />
             </span>
             SubPenyakit
+          </ResponsiveNavLink>
+        </li>
+        <li>
+          <ResponsiveNavLink
+            href={route('reason.index')}
+            active={route().current()?.startsWith('reason')}
+          >
+            <span className={'mr-4'}>
+              <ErrorIcon fontSize="large" />
+            </span>
+            Penyebab Masalah
+          </ResponsiveNavLink>
+        </li>
+        <li>
+          <ResponsiveNavLink
+            href={route('symptom.index')}
+            active={route().current()?.startsWith('symptom')}
+          >
+            <span className={'mr-4'}>
+              <StickyNote2Icon fontSize="large" />
+            </span>
+            Gejala
+          </ResponsiveNavLink>
+        </li>
+        <li>
+          <ResponsiveNavLink
+            href={route('treatment.index')}
+            active={route().current()?.startsWith('treatment')}
+          >
+            <span className={'mr-4'}>
+              <MedicationLiquidIcon fontSize="large" />
+            </span>
+            Perawatan
           </ResponsiveNavLink>
         </li>
         {user.roles.some(role => role.name === 'super-admin') && (

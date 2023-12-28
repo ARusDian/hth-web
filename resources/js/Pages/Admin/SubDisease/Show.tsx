@@ -37,7 +37,7 @@ export default function Show(props: Props) {
         'Apakah anda yakin ingin menghapus data ini?'
       }
     >
-      <div className="m-8 mb-12 p-7 text-gray-800 shadow-2xl sm:rounded-3xl bg-white shadow-sky-400/50">
+      <div className="m-8 mb-12 p-7 text-gray-800 shadow-2xl sm:rounded-3xl bg-white shadow-sky-400/50 flex flex-col gap-3">
         <table className="w-full">
           <thead>
             <tr className="border-b py-3 border-black">
@@ -65,7 +65,7 @@ export default function Show(props: Props) {
           </tbody>
         </table>
       </div>
-      <div className="m-8 mb-12 p-7 text-gray-800 shadow-2xl sm:rounded-3xl bg-white shadow-sky-400/50">
+      <div className="m-8 mb-12 p-7 text-gray-800 shadow-2xl sm:rounded-3xl bg-white shadow-sky-400/50 flex flex-col gap-3">
         <div className=''>
           <h2 className="text-2xl font-semibold">Gejala</h2>
         </div>
@@ -92,7 +92,7 @@ export default function Show(props: Props) {
           </div>
         )}
       </div>
-      <div className="m-8 mb-12 p-7 text-gray-800 shadow-2xl sm:rounded-3xl bg-white shadow-sky-400/50">
+      <div className="m-8 mb-12 p-7 text-gray-800 shadow-2xl sm:rounded-3xl bg-white shadow-sky-400/50 flex flex-col gap-3">
         <div className=''>
           <h2 className="text-2xl font-semibold">Kemungkinan Penyebab Masalah</h2>
         </div>
@@ -119,7 +119,7 @@ export default function Show(props: Props) {
           </div>
         )}
       </div>
-      <div className="m-8 mb-12 p-7 text-gray-800 shadow-2xl sm:rounded-3xl bg-white shadow-sky-400/50">
+      <div className="m-8 mb-12 p-7 text-gray-800 shadow-2xl sm:rounded-3xl bg-white shadow-sky-400/50 flex flex-col gap-3">
         <div className=''>
           <h2 className="text-2xl font-semibold">Perawatan</h2>
         </div>
