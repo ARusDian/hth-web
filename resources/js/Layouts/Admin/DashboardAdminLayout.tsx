@@ -209,6 +209,28 @@ export default function DashboardAdminLayout({
             Penyebab Masalah
           </ResponsiveNavLink>
         </li>
+        <li>
+          <ResponsiveNavLink
+            href={route('disease.index')}
+            active={route().current()?.startsWith('disease')}
+          >
+            <span className={'mr-4'}>
+              <FolderCopyIcon fontSize="large" />
+            </span>
+            Penyakit
+          </ResponsiveNavLink>
+        </li>
+        <li>
+          <ResponsiveNavLink
+            href={route('sub-disease.index')}
+            active={route().current()?.startsWith('sub-disease')}
+          >
+            <span className={'mr-4'}>
+              <InventoryIcon fontSize="large" />
+            </span>
+            SubPenyakit
+          </ResponsiveNavLink>
+        </li>
         {user.roles.some(role => role.name === 'super-admin') && (
           <>
             <Divider >

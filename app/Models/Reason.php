@@ -52,4 +52,9 @@ class Reason extends Model
             return $query;
         }
     }
+
+    public function diseases()
+    {
+        return $this->belongsToMany(Disease::class);
+    }
 }

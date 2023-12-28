@@ -5,16 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Symptom extends Model
+class Disease extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-    'description',
+    protected $allowed = [
+        'name',
+        'problem',
+        'diagnosis',
     ];
 
-    protected $allowed = [
-    'description',
+    protected $fillable = [
+        'name',
+        'problem',
+        'diagnosis',
     ];
 
     public function scopeWhereColumns($query, $filters)
@@ -43,7 +47,7 @@ class Symptom extends Model
                 }
                 else
                 {
-                    $query->where($value->id, 'LIKE', "%".$value->value."%");
+                    $query->where($value->id, 'LIKE', "%" . $value->value . "%");
                 }
             }
         }
@@ -53,8 +57,23 @@ class Symptom extends Model
         }
     }
 
-    public function diseases()
+    public function reasons()
     {
-        return $this->belongsToMany(Disease::class);
+        return $this->belongsToMany(Reason::class, 'disease_reasons');
+    }
+
+    public function symptoms()
+    {
+        return $this->belongsToMany(Symptom::class, 'disease_symptoms');
+    }
+
+    public function subDiseases()
+    {
+        return $this->hasMany(SubDisease::class);
+    }
+
+    public function treatments()
+    {
+        return $this->belongsToMany(Treatment::class, 'disease_treatments');
     }
 }

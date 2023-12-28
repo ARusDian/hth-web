@@ -52,4 +52,9 @@ class Treatment extends Model
             return $query;
         }
     }
+
+    public function subDiseases()
+    {
+        return $this->belongsToMany(SubDisease::class);
+    }
 }

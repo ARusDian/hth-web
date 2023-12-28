@@ -18,9 +18,11 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RoleSeeder::class,
             UserSeeder::class,
+            DiseaseSeeder::class,
+            SubDiseaseSeeder::class,
             SymptomSeeder::class,
-            TreatmentSeeder::class,
             ReasonSeeder::class,
+            TreatmentSeeder::class,
         ]);
     }
 }

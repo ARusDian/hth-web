@@ -7,17 +7,16 @@ import {
   toolbarPlugin,
 } from '@react-pdf-viewer/toolbar';
 import { asset, getUniqueKey } from '@/Models/Helper';
-import { BaseLearningMaterialDocumentModel } from '@/Models/LearningMaterial';
 
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import '@react-pdf-viewer/toolbar/lib/styles/index.css';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 import workerUrl from 'pdfjs-dist/build/pdf.worker.min.js?url';
 
-import { getStorageFileUrl } from '@/Models/FileModel';
+import { DocumentFileModel, getStorageFileUrl } from '@/Models/FileModel';
 
 interface Props {
-  document: BaseLearningMaterialDocumentModel;
+  document: DocumentFileModel;
   height?: string;
 }
 
@@ -55,7 +54,7 @@ export default function PDFViewer({ document, height }: Props) {
         </div>
         <div style={{ height: height ?? '800px' }} id="pdfviewer">
           <Viewer
-            fileUrl={getStorageFileUrl(document.document_file) as string}
+            fileUrl={getStorageFileUrl(document) as string}
             plugins={[toolbarPluginInstance]}
           />
         </div>
