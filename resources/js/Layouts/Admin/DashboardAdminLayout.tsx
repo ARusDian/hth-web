@@ -23,6 +23,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import ManageHistoryIcon from '@mui/icons-material/ManageHistory';
 import ErrorIcon from '@mui/icons-material/Error';
 import MedicationLiquidIcon from '@mui/icons-material/MedicationLiquid';
+import MedicalInformationIcon from '@mui/icons-material/MedicalInformation';
 import StickyNote2Icon from '@mui/icons-material/StickyNote2';
 import BugReportIcon from '@mui/icons-material/BugReport';
 import CoronavirusIcon from '@mui/icons-material/Coronavirus';
@@ -175,6 +176,17 @@ export default function DashboardAdminLayout({
               <DashboardIcon fontSize="large" />
             </span>
             Dashboard
+          </ResponsiveNavLink>
+        </li>
+        <li>
+          <ResponsiveNavLink
+            href={route('medical-record.index')}
+            active={route().current()?.startsWith('medical-record')}
+          >
+            <span className={'mr-4'}>
+              <MedicalInformationIcon fontSize="large" />
+            </span>
+            Rekam Medis
           </ResponsiveNavLink>
         </li>
         <li>

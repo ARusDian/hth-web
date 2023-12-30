@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiseaseController;
 use App\Http\Controllers\DevController;
 use App\Http\Controllers\DocumentFileController;
+use App\Http\Controllers\MedicalRecordController;
 use App\Http\Controllers\ReasonController;
 use App\Http\Controllers\SubDiseaseController;
 use App\Http\Controllers\SymptomController;
@@ -47,6 +48,7 @@ Route::middleware([
             Route::resource("reason", ReasonController::class);
             Route::resource("disease", DiseaseController::class);
             Route::resource("sub-disease", SubDiseaseController::class);
+            Route::resource("medical-record", MedicalRecordController::class);
 
             Route::middleware(["role:super-admin"])->group(function () {
                 Route::resource("/user", UserController::class);
