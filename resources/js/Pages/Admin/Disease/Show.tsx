@@ -4,6 +4,7 @@ import { router } from '@inertiajs/react';
 import AdminShowLayout from '@/Layouts/Admin/AdminShowLayout';
 import { useConfirm } from 'material-ui-confirm';
 import { DiseaseModel } from '@/Models/Disease';
+import MuiInertiaLinkButton from '@/Components/MuiInertiaLinkButton';
 
 interface Props {
   disease: DiseaseModel;
@@ -71,6 +72,7 @@ export default function Show(props: Props) {
                 <tr className="border-b py-3 border-black">
                   <th className="">No</th>
                   <th className="">Nama</th>
+                  <th className="">Aksi</th>
                 </tr>
               </thead>
               <tbody>
@@ -78,6 +80,14 @@ export default function Show(props: Props) {
                   <tr className="border-b py-3 border-black" key={index}>
                     <td className="py-3 text-center">{index + 1}</td>
                     <td className="py-3 text-center">{subDisease.name}</td>
+                    <td className="py-3 text-center">
+                      <MuiInertiaLinkButton
+                        color="primary"
+                        href={route('sub-disease.show', subDisease.id)}
+                      >
+                        Show
+                      </MuiInertiaLinkButton>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -171,7 +181,7 @@ export default function Show(props: Props) {
           </table>
         ) : (
           <div className="flex flex-col gap-2">
-              <span className="font-semibold">{disease.sub_diseases && disease.sub_diseases.length > 0 ? "Perawatan Tersedia pada Tiap Sub Penyakit" : "Tidak ada Perawatan"}</span>
+            <span className="font-semibold">{disease.sub_diseases && disease.sub_diseases.length > 0 ? "Perawatan Tersedia pada Tiap Sub Penyakit" : "Tidak ada Perawatan"}</span>
           </div>
         )}
       </div>
