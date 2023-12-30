@@ -11,15 +11,19 @@ import {
 } from 'material-react-table'
 import React, { useEffect } from 'react';
 import { useMemo } from 'react';
-import { Controller, FieldValues, Path, UseFormReturn } from 'react-hook-form';
+import { Controller, FieldValues, Path, PathValue, UseFormReturn } from 'react-hook-form';
 
 interface Props<T extends MRT_RowData, P extends FieldValues> {
     tableOptions: MRT_TableOptions<T>
     form: UseFormReturn<P>;
     name: Path<P>;
+    insertFunction?: (data: PathValue<P, Path<P>>, rowSelection: MRT_RowSelectionState) => PathValue<P, Path<P>>;
 }
 
 export default function MRTSelectRowTable<T extends MRT_RowData, P extends FieldValues>(props: Props<T, P>) {
+    
+    const insertFunction = props.insertFunction ?? defaultInsertFunction;
+
     const dataColumns = useMemo<MRT_ColumnDef<T>[]>(
         () => props.tableOptions.columns, []) as MRT_ColumnDef<T>[]
 
@@ -27,12 +31,9 @@ export default function MRTSelectRowTable<T extends MRT_RowData, P extends Field
         props.tableOptions.state?.rowSelection ?? {}
     );
 
-    useEffect(() => {
-        props.form.setValue(props.name,
-            // @ts-ignore
-            props.tableOptions.data.filter(it => rowSelection[it.id] as boolean) 
-        );
-    }, [rowSelection]);
+    useEffect(() => props.form.setValue(props.name,
+        insertFunction(props.tableOptions.data as PathValue<P, Path<P>>, rowSelection)
+    ), [rowSelection]);
 
     const table = useMaterialReactTable<T>({
         ...props.tableOptions,
@@ -71,4 +72,8 @@ export default function MRTSelectRowTable<T extends MRT_RowData, P extends Field
     return (
         <MaterialReactTable table={table} />
     )
+}
+
+const defaultInsertFunction = <P extends FieldValues>(data: PathValue<P, Path<P>> , rowSelection: MRT_RowSelectionState) => {
+    return data.filter((it: { id: string | number; }) => rowSelection[it.id] as boolean);
 }
