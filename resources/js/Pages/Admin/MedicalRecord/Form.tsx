@@ -323,7 +323,7 @@ export default function Form(props: Props) {
               {...form.register('body_temperature', { required: true })}
               required
               type='number'
-              label="Tekanan Darah"
+              label="Suhu Tubuh"
               className="mt-1 block w-full"
               defaultValue={form.formState.defaultValues?.body_temperature}
               error={form.formState.errors?.body_temperature != null}
