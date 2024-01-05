@@ -278,6 +278,9 @@ export default function Show(props: Props) {
             <span className="font-semibold">Tidak ada Rencana Perawatan</span>
           </div>
         )}
+        <p className='text-md font-semibold'>
+          * Rencana perawatan semakin lengkap jika semua penyakit telah dipilih sub penyakitnya.
+        </p>
       </div>
 
     </AdminShowLayout>
