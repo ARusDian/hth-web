@@ -55,22 +55,6 @@ class TreatmentSeeder extends Seeder
     ],
     [
     "disease_id" => 9,
-    "treatment_id" => 9,
-    ],
-    [
-    "disease_id" => 10,
-    "treatment_id" => 9,
-    ],
-    [
-    "disease_id" => 11,
-    "treatment_id" => 10,
-    ],
-    [
-    "disease_id" => 12,
-    "treatment_id" => 10,
-    ],
-    [
-    "disease_id" => 13,
     "treatment_id" => 10,
     ],
     ];
@@ -124,7 +108,23 @@ class TreatmentSeeder extends Seeder
     [
     "sub_disease_id" => 12,
     "treatment_id" => 4,
-    ]
+    ],
+    [
+    "sub_disease_id" => 25,
+    "treatment_id" => 9,
+    ],
+    [
+    "sub_disease_id" => 26,
+    "treatment_id" => 9,
+    ],
+    [
+    "sub_disease_id" => 27,
+    "treatment_id" => 10,
+    ],
+    [
+    "sub_disease_id" => 28,
+    "treatment_id" => 10,
+    ],
     ];
 
     /**

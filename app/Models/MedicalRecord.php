@@ -49,9 +49,9 @@ class MedicalRecord extends Model
         "symptoms_arr" => "array"
     ];
 
-    public function diseases()
+    public function diseaseRecords()
     {
-        return $this->belongsToMany(Disease::class, "disease_records", "medical_record_id", "disease_id");
+        return $this->hasMany(DiseaseRecord::class);
     }
 
     public function getSymptomAttribute($value)

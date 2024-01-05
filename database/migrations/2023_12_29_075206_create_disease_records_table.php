@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId("medical_record_id")->constrained("medical_records")->cascadeOnDelete();
             $table->foreignId("disease_id")->constrained("diseases")->cascadeOnDelete();
+            $table->foreignId("sub_disease_id")->nullable()->constrained("sub_diseases")->cascadeOnDelete();
             $table->timestamps();
         });
     }

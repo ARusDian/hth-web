@@ -26,6 +26,8 @@ export default function Show(props: Props) {
       .catch(e => console.log(e, 'Deletion cancelled.'));
   };
 
+  console.log(medical_record);
+
   return (
     <AdminShowLayout
       title={`Rekam Medis`}
@@ -197,27 +199,48 @@ export default function Show(props: Props) {
         <div className=''>
           <h2 className="text-2xl font-semibold">Penyakit</h2>
         </div>
-        {medical_record.diseases && medical_record.diseases.length > 0 ? (
+        {medical_record.disease_records && medical_record.disease_records.length > 0 ? (
           <table className="w-full">
             <thead>
               <tr className="border-b py-3 border-black">
                 <th className="">No</th>
                 <th className="">Penyakit</th>
-                <th className="">Lihat</th>
+                <th className="">Aksi</th>
               </tr>
             </thead>
             <tbody>
-              {medical_record.diseases.map((disease, index) => (
+              {medical_record.disease_records.map((record, index) => (
                 <tr className="border-b py-3 border-black" key={index}>
                   <td className="py-3 text-center">{index + 1}</td>
-                  <td className="py-3 text-center">{disease.name}</td>
-                  <td className="py-3 text-center">
+                  <td className="py-3 text-center">{record.disease!.name} {record.sub_disease ? " - " + record.sub_disease.name : ""}</td>
+                  <td className="py-3 text-center flex justify-center gap-3">
                     <MuiInertiaLinkButton
                       color="primary"
-                      href={route('disease.show', disease.id)}
+                      href={route('disease.show', record.disease!.id)}
                     >
-                      Show
+                      Lihat Penyakit
                     </MuiInertiaLinkButton>
+                    {
+                      record.disease!.sub_diseases && record.disease!.sub_diseases.length > 0 &&
+                        record.sub_disease ? (
+                        <MuiInertiaLinkButton
+                          color="primary"
+                          href={route('sub-disease.show', record.sub_disease!.id)}
+                        >
+                          Lihat Sub Penyakit
+                        </MuiInertiaLinkButton>
+                      ) : (
+                        <MuiInertiaLinkButton
+                          color="warning"
+                          href={route('medical-record.select-sub-disease', [
+                            medical_record,
+                            record.id,
+                          ])}
+                        >
+                            Pilih Sub Penyakit
+                        </MuiInertiaLinkButton>
+                      )
+                    }
                   </td>
                 </tr>
               ))}
@@ -225,7 +248,7 @@ export default function Show(props: Props) {
           </table>
         ) : (
           <div className="flex flex-col gap-2">
-              <span className="font-semibold">Tidak ada Penyakit</span>
+            <span className="font-semibold">Tidak ada Penyakit</span>
           </div>
         )}
       </div>

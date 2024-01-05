@@ -105,7 +105,23 @@ class SubDiseaseSeeder extends Seeder
     "disease_id" => 4,
     "name" => "Kelas 6 (Karies pada bagian puncak tonjol/cups semua gigi)"
     ],
-    
+    [
+    "disease_id" => 5,
+    "name" => "Mobilitas 1",
+    ],
+    [
+    "disease_id" => 5,
+    "name" => "Mobilitas 2",
+    ],
+    [
+    "disease_id" => 5,
+    "name" => "Mobilitas 3",
+    ],
+    [
+    "disease_id" => 5,
+    "name" => "Mobilitas 4",
+    ]
+
     ];
 
     /**
@@ -115,7 +131,8 @@ class SubDiseaseSeeder extends Seeder
     {
         //
 
-        foreach ($this->data as $data) {
+        foreach ($this->data as $data)
+        {
             \App\Models\SubDisease::create($data);
         }
     }

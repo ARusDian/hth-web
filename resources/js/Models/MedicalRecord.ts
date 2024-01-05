@@ -1,4 +1,5 @@
 import { DiseaseModel } from "./Disease";
+import { SubDiseaseModel } from "./SubDisease";
 import { SymptomModel } from "./Symptom";
 import { TreatmentModel } from "./Treatment";
 
@@ -31,11 +32,22 @@ export interface BaseMedicalRecordModel {
     symptoms_arr: Number[] | null | string; // Assuming symptom is stored as a JSON object
     created_at: string; // Assuming created_at is stored as a string in the format 'YYYY-MM-DD HH:MM:SS'
     updated_at: string; // Assuming updated_at is stored as a string in the format 'YYYY-MM-DD HH:MM:SS'
-    diseases?: Array<DiseaseModel>;
+    disease_records?: Array<DiseaseRecordModel>;
     symptoms?: Array<SymptomModel>;
     treatments?: Array<TreatmentModel>;
 }
 
 export interface MedicalRecordModel extends BaseMedicalRecordModel {
     id: number;
+}
+
+interface DiseaseRecordModel {
+    id: number;
+    disease_id: number;
+    sub_disease_id: number;
+    medical_record_id: number;
+    disease?: DiseaseModel;
+    sub_disease?: SubDiseaseModel;
+    created_at: string;
+    updated_at: string;
 }

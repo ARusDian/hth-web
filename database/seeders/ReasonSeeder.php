@@ -130,38 +130,6 @@ class ReasonSeeder extends Seeder
     ],
     [
     "disease_id" => 9,
-    "reason_id" => 8,
-    ],
-    [
-    "disease_id" => 9,
-    "reason_id" => 5,
-    ],
-    [
-    "disease_id" => 10,
-    "reason_id" => 8,
-    ],
-    [
-    "disease_id" => 10,
-    "reason_id" => 5,
-    ],
-    [
-    "disease_id" => 11,
-    "reason_id" => 8,
-    ],
-    [
-    "disease_id" => 11,
-    "reason_id" => 5,
-    ],
-    [
-    "disease_id" => 12,
-    "reason_id" => 8,
-    ],
-    [
-    "disease_id" => 12,
-    "reason_id" => 5,
-    ],
-    [
-    "disease_id" => 13,
     "reason_id" => 9,
     ],
     ];

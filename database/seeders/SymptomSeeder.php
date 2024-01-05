@@ -96,22 +96,6 @@ class SymptomSeeder extends Seeder
     [
     "disease_id" => 9,
     "symptom_id" => 14,
-    ],
-    [
-    "disease_id" => 10,
-    "symptom_id" => 15,
-    ],
-    [
-    "disease_id" => 11,
-    "symptom_id" => 16,
-    ],
-    [
-    "disease_id" => 12,
-    "symptom_id" => 17,
-    ],
-    [
-    "disease_id" => 13,
-    "symptom_id" => 18,
     ]
     ];
 

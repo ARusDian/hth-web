@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date("date_of_birth");
             $table->string("NIK");
             $table->enum("gender",["L","P"]);
-            $table->string("race");
+            $table->string("race")->nullable();
             $table->string("occupation");
             $table->string("phone_number");
             $table->string("family_phone_number")->nullable();

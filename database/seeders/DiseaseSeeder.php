@@ -53,26 +53,6 @@ class DiseaseSeeder extends Seeder
     "diagnosis" => "Tidak terpenuhinya keutuhan akan perlindungan dari resiko penyakit gigi dan mulut sehubungan dengan adanya pit dan fissure yang dalam dan sempit",
     ],
     [
-    "name" => "Mobility",
-    "problem" => "Cemas gigi goyang, Cemas gigi akan dicabut",
-    "diagnosis" => "Tidak terpenuhinya kebutuhan akan bebas dari rasa cemas/stress sehubungan dengan adanya gigi mobility",
-    ],
-    [
-    "name" => "Mobility 2",
-    "problem" => "Cemas gigi goyang, Cemas gigi akan dicabut",
-    "diagnosis" => "Tidak terpenuhinya kebutuhan akan bebas dari rasa cemas/stress sehubungan dengan adanya gigi mobility",
-    ],
-    [
-    "name" => "Mobility 3",
-    "problem" => "Cemas gigi goyang, Cemas gigi akan dicabut",
-    "diagnosis" => "Tidak terpenuhinya kebutuhan akan bebas dari rasa cemas/stress sehubungan dengan adanya gigi mobility",
-    ],
-    [
-    "name" => "Mobility 4",
-    "problem" => "Cemas gigi goyang, Cemas gigi akan dicabut",
-    "diagnosis" => "Tidak terpenuhinya kebutuhan akan bebas dari rasa cemas/stress sehubungan dengan adanya gigi mobility",
-    ],
-    [
     "name" => "Persistensi",
     "problem" => "Persistensi",
     "diagnosis" => "Tidak terpenuhinya kondisi biologis gigi geligi yang baik sehubungan dengan persistensi",

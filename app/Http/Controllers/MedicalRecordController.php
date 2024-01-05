@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Disease;
+use App\Models\DiseaseRecord;
 use App\Models\MedicalRecord;
 use App\Models\Symptom;
 use Illuminate\Http\Request;
@@ -46,7 +48,7 @@ class MedicalRecordController extends Controller
         'date_of_birth' => 'required|date',
         'NIK' => 'required|string',
         'gender' => 'required|in:L,P',
-        'race' => 'required|string',
+        'race' => 'nullable|string',
         'occupation' => 'required|string',
         'phone_number' => 'required|string',
         'family_phone_number' => 'nullable|string',
@@ -85,7 +87,13 @@ class MedicalRecordController extends Controller
 
         $medical_record = MedicalRecord::create($request->all());
 
-        $medical_record->diseases()->attach($request->diseases);
+        $medical_record->diseaseRecords()->createMany($diseases->map(function ($item)
+        {
+            return [
+                'disease_id' => $item->id,
+            ];
+        }));
+
 
         return redirect()->route('medical-record.index')->banner('Medical Record created.');
     }
@@ -97,29 +105,28 @@ class MedicalRecordController extends Controller
     {
         //
 
-        $medicalRecord->load(['diseases.treatments', 'diseases.subDiseases.treatments']);
+        $medicalRecord->load(['diseaseRecords.disease.treatments', 'diseaseRecords.disease.subDiseases', 'diseaseRecords.subDisease.treatments']);
 
-        $medicalRecord->symptoms = Symptom::with('diseases')->whereIn('id',$medicalRecord->symptoms_arr)->get();
+        $medicalRecord->symptoms = Symptom::with('diseases')->whereIn('id', $medicalRecord->symptoms_arr)->get();
 
-        $medicalRecord->treatments = $medicalRecord->diseases->map(function ($item)
+        $diseases = $medicalRecord->diseaseRecords->map(function ($item)
         {
-            $treatments = [];
-            $item->subDiseases->each(function ($subDisease) use (&$treatments)
-            {
-                $treatments = array_merge($treatments, $subDisease->treatments->toArray());
-            });
-            return array_merge($treatments, $item->treatments->toArray());
+            return $item->disease;
         });
 
-        $treatments = [];
-
-        $medicalRecord->treatments->each(function ($item) use (&$treatments)
+        $sub_diseases = $medicalRecord->diseaseRecords->map(function ($item)
         {
-            $treatments = array_merge($treatments, $item);
+            return $item->subDisease;
         });
 
-        $medicalRecord->treatments = collect($treatments)->unique('id')->values();
-
+        $medicalRecord->treatments = $diseases->map(function ($item)
+        {
+            return $item->treatments;
+        })->flatten()->merge($sub_diseases->map(function ($item)
+        {
+            return $item->treatments ?? [];
+        })->flatten())->unique('id')->values();
+                
         return inertia('Admin/MedicalRecord/Show', [
             'medical_record' => $medicalRecord,
         ]);
@@ -155,7 +162,7 @@ class MedicalRecordController extends Controller
         'date_of_birth' => 'required|date',
         'NIK' => 'required|string',
         'gender' => 'required|in:L,P',
-        'race' => 'required|string',
+        'race' => 'nullable|string',
         'occupation' => 'required|string',
         'phone_number' => 'required|string',
         'family_phone_number' => 'nullable|string',
@@ -184,18 +191,17 @@ class MedicalRecordController extends Controller
             return $item->diseases;
         })->flatten()->unique();
 
-        $request->merge([
-            'diseases' => $diseases->map(function ($item)
-            {
-                return $item->id;
-            }),
-        ]);
-
         $medicalRecord->update($request->all());
 
-        $medicalRecord->diseases()->sync($request->diseases);
+        $diseases->each(function ($item) use ($medicalRecord)
+        {
+            $medicalRecord->diseaseRecords()->updateOrCreate([
+                'disease_id' => $item->id,
+            ]);
+        });
+        
 
-        return redirect()->route('medical-record.index')->banner('Medical Record updated.');
+        return redirect()->route('medical-record.show', $medicalRecord)->banner('Medical Record updated.');
     }
 
     /**
@@ -204,5 +210,43 @@ class MedicalRecordController extends Controller
     public function destroy(MedicalRecord $medicalRecord)
     {
         //
+        $medicalRecord->delete();
+
+        return redirect()->route('medical-record.index')->banner('Medical Record deleted.');
+    }
+
+    public function selectSubDisesase(
+        $medical_record,
+        $record
+    ) {
+        $disease = DiseaseRecord::find($record)->disease;
+
+        $sub_diseases = $disease->subDiseases;
+
+        return inertia('Admin/MedicalRecord/SelectSubDisease', [
+            'medical_record' => $medical_record,
+            'record' => $record,
+            'disease' => $disease,
+            'sub_diseases' => $sub_diseases
+        ]);
+    }
+
+    public function setSubDisease(
+        $medical_record,
+        $record,
+        Request $request)
+    {
+        $request->validate([
+            'sub_disease_id' => 'required|exists:sub_diseases,id',
+        ]);
+
+        $disease_record = DiseaseRecord::find($request->record);
+
+        $disease_record->sub_disease_id = $request->sub_disease_id;
+
+        $disease_record->save();
+
+
+        return redirect()->route('medical-record.show', $request->medical_record)->banner('Sub Disease set.');
     }
 }
