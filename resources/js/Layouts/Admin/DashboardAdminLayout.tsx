@@ -394,7 +394,7 @@ export default function DashboardAdminLayout({
         </Box>
       </Box>
       <div className="w-full bg-blue-50 fixed bottom-0 text-center shadow shadow-sky-400/50 py-1">
-        Ruxtech @2023 Ver. {version}
+        HTH &copy; {new Date().getFullYear()} v{version}
       </div>
     </div>
   );
