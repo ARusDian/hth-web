@@ -49,7 +49,7 @@
             width: 100%;
         }
 
-        .w-3/4 {
+        .w-3-4 {
             width: 75%;
         }
 
@@ -114,7 +114,7 @@
         <div class="flex flex-col gap-3 m-7 ">
             <div class="w-full">
                 <p class="text-xl font-bold">Data Pasien :</p>
-                <table class="w-3/4">
+                <table class="w-3-4">
                     <tr>
                         <td>Nama</td>
                         <td>:</td>
@@ -170,7 +170,7 @@
             <div class="w-full">
                 <p class="text-xl font-bold">Hasil Pemeriksaan :</p>
 
-                <table class="w-3/4">
+                <table class="w-3-4">
                     <tr>
                         <td>Keluhan Utama</td>
                         <td>:</td>
@@ -205,7 +205,7 @@
                 </table>
                 <div class="w-full">
                     <p class="text-xl font-bold">Penyakit Bawaan </p>
-                    <div>
+                    <div class="w-3-4">
                         <ul class="list-none">
                             <li>
                                 <input type="checkbox" {{ $medicalRecord->is_heart_disease ? 'checked' : '' }} disabled>
@@ -228,7 +228,7 @@
                             </li>
                         </ul>
                         <p class="text-sm">*Centang jika ada</p>
-                        <table class="w-3/4">
+                        <table class="w-3-4">
                             <tr>
                                 <td>Penyakit Lainnya</td>
                                 <td>:</td>
