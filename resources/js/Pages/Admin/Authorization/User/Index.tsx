@@ -194,7 +194,7 @@ export default function Index(props: Props) {
       addRouteTitle="Tambah User"
     >
       <div className="mt-6 p-7 text-gray-500 shadow-2xl sm:rounded-3xl bg-white shadow-sky-400/50 flex flex-col gap-3">
-        <div className="flex justify-between">
+        {/* <div className="flex justify-between">
           <div className="flex justify-center">
             <form
               className="flex-col gap-5 py-5"
@@ -262,7 +262,7 @@ export default function Index(props: Props) {
           >
             Export Student
           </MuiInertiaLinkButton>
-        </div>
+        </div> */}
         <MaterialReactTable table={table} />
       </div>
       <Modal
