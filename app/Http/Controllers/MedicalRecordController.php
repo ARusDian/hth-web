@@ -7,6 +7,7 @@ use App\Models\DiseaseRecord;
 use App\Models\MedicalRecord;
 use App\Models\Symptom;
 use Illuminate\Http\Request;
+use PDF;
 
 class MedicalRecordController extends Controller
 {
@@ -130,6 +131,37 @@ class MedicalRecordController extends Controller
         return inertia('Admin/MedicalRecord/Show', [
             'medical_record' => $medicalRecord,
         ]);
+    }
+
+    public function exportPDF(MedicalRecord $medicalRecord)
+    {
+        $medicalRecord->load(['diseaseRecords.disease.treatments', 'diseaseRecords.disease.subDiseases', 'diseaseRecords.subDisease.treatments']);
+
+        $medicalRecord->symptoms = Symptom::with('diseases')->whereIn('id', $medicalRecord->symptoms_arr)->get();
+
+        $diseases = $medicalRecord->diseaseRecords->map(function ($item)
+        {
+            return $item->disease;
+        });
+
+        $sub_diseases = $medicalRecord->diseaseRecords->map(function ($item)
+        {
+            return $item->subDisease;
+        });
+
+        $medicalRecord->treatments = $diseases->map(function ($item)
+        {
+            return $item->treatments;
+        })->flatten()->merge($sub_diseases->map(function ($item)
+        {
+            return $item->treatments ?? [];
+        })->flatten())->unique('id')->values();
+
+        $pdf = PDF::loadView('exports.exportMedicalRecord', [
+            'medicalRecord' => $medicalRecord,
+        ]);
+
+        return $pdf->download('medical-record.pdf');
     }
 
     /**

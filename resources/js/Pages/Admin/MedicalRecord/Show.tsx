@@ -43,8 +43,15 @@ export default function Show(props: Props) {
       }
     >
       <div className="m-8 mb-12 p-7 text-gray-800 shadow-2xl sm:rounded-3xl bg-white shadow-sky-400/50 flex flex-col gap-3">
-        <div className=''>
+        <div className='flex justify-between'>
           <h2 className="text-2xl font-semibold">Data Pasien</h2>
+          <MuiInertiaLinkButton
+            href={route('medical-record.export', medical_record.id)}
+            color="primary"
+            isNextPage
+          >
+            Cetak PDF
+          </MuiInertiaLinkButton>
         </div>
         <table className="w-full">
           <thead>
@@ -87,7 +94,7 @@ export default function Show(props: Props) {
               <td className="py-3 text-center">{medical_record.phone_number}</td>
             </tr>
             <tr className="border-b py-3 border-black">
-              <td className="py-3 text-center">NIK</td>
+              <td className="py-3 text-center">Nomor Telepon Keluarga</td>
               <td className="py-3 text-center">{medical_record.family_phone_number ?? "-"}</td>
             </tr>
           </tbody>
