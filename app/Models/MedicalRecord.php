@@ -20,6 +20,7 @@ class MedicalRecord extends Model
     protected $fillable = [
     'name',
     'address',
+    'place_of_birth',
     'date_of_birth',
     'NIK',
     'gender',

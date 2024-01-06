@@ -7,6 +7,7 @@ export interface BaseMedicalRecordModel {
     id?: number;
     name: string;
     address: string;
+    place_of_birth: string;
     date_of_birth: string; // Assuming date_of_birth is stored as a string in the format 'YYYY-MM-DD'
     NIK: string;
     gender: 'L' | 'P';

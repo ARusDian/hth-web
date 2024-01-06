@@ -71,7 +71,7 @@ export default function Show(props: Props) {
             </tr>
             <tr className="border-b py-3 border-black">
               <td className="py-3 text-center">Tanggal Lahir</td>
-              <td className="py-3 text-center">{medical_record.date_of_birth}</td>
+              <td className="py-3 text-center">{medical_record.place_of_birth}, {medical_record.date_of_birth}</td>
             </tr>
             <tr className="border-b py-3 border-black">
               <td className="py-3 text-center">NIK</td>
@@ -228,25 +228,31 @@ export default function Show(props: Props) {
                       Lihat Penyakit
                     </MuiInertiaLinkButton>
                     {
-                      record.disease!.sub_diseases && record.disease!.sub_diseases.length > 0 &&
-                        record.sub_disease ? (
-                        <MuiInertiaLinkButton
-                          color="primary"
-                          href={route('sub-disease.show', record.sub_disease!.id)}
-                        >
-                          Lihat Sub Penyakit
-                        </MuiInertiaLinkButton>
-                      ) : (
-                        <MuiInertiaLinkButton
-                          color="warning"
-                          href={route('medical-record.select-sub-disease', [
-                            medical_record,
-                            record.id,
-                          ])}
-                        >
-                            Pilih Sub Penyakit
-                        </MuiInertiaLinkButton>
-                      )
+                      record.disease!.sub_diseases && record.disease!.sub_diseases.length > 0 ?
+                        (
+                          <>
+                            {record.sub_disease ? (
+                              <MuiInertiaLinkButton
+                                color="primary"
+                                href={route('sub-disease.show', record.sub_disease!.id)}
+                              >
+                                Lihat Sub Penyakit
+                              </MuiInertiaLinkButton>
+                            ) : (
+                              null
+                            )}
+                            <MuiInertiaLinkButton
+                              color="warning"
+                              href={route('medical-record.select-sub-disease', [
+                                medical_record,
+                                record.id,
+                              ])}
+                            >
+                              Pilih Sub Penyakit
+                            </MuiInertiaLinkButton>
+                            
+                          </>
+                        ) : null
                     }
                   </td>
                 </tr>

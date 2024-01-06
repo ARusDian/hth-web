@@ -128,7 +128,7 @@
                     <tr>
                         <td>Tempat dan Tanggal Lahir</td>
                         <td>:</td>
-                        <td>{{ $medicalRecord->date_of_birth }}</td>
+                        <td>{{$medicalRecord->place_of_birth}}, {{ $medicalRecord->date_of_birth }}</td>
                     </tr>
                     <tr>
                         <td>NIK</td>

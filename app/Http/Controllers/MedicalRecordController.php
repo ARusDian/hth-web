@@ -46,6 +46,7 @@ class MedicalRecordController extends Controller
         $request->validate([
         'name' => 'required|string',
         'address' => 'required|string',
+        'place_of_birth' => 'required|string',
         'date_of_birth' => 'required|date',
         'NIK' => 'required|string',
         'gender' => 'required|in:L,P',
@@ -76,15 +77,7 @@ class MedicalRecordController extends Controller
         $diseases = $symptoms->map(function ($item)
         {
             return $item->diseases;
-        })->flatten()->unique();
-
-        $request->merge([
-            'diseases' => $diseases->map(function ($item)
-            {
-                return $item->id;
-            }),
-        ]);
-
+        })->flatten()->unique('id')->values();
 
         $medical_record = MedicalRecord::create($request->all());
 
@@ -127,7 +120,7 @@ class MedicalRecordController extends Controller
         {
             return $item->treatments ?? [];
         })->flatten())->unique('id')->values();
-                
+
         return inertia('Admin/MedicalRecord/Show', [
             'medical_record' => $medicalRecord,
         ]);
@@ -191,6 +184,7 @@ class MedicalRecordController extends Controller
         $request->validate([
         'name' => 'required|string',
         'address' => 'required|string',
+        'place_of_birth' => 'required|string',
         'date_of_birth' => 'required|date',
         'NIK' => 'required|string',
         'gender' => 'required|in:L,P',
@@ -225,13 +219,17 @@ class MedicalRecordController extends Controller
 
         $medicalRecord->update($request->all());
 
+        $medicalRecord->diseaseRecords()->whereNotIn('disease_id', $diseases->pluck('id'))->delete();
+
         $diseases->each(function ($item) use ($medicalRecord)
         {
             $medicalRecord->diseaseRecords()->updateOrCreate([
                 'disease_id' => $item->id,
+            ], [
+                'disease_id' => $item->id,
             ]);
         });
-        
+
 
         return redirect()->route('medical-record.show', $medicalRecord)->banner('Medical Record updated.');
     }

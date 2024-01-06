@@ -19,6 +19,7 @@ export default function Create(props: Props) {
     defaultValues: {
       name: '',
       address: '',
+      place_of_birth: '',
       date_of_birth: '',
       NIK: '',
       gender: 'L',

@@ -135,6 +135,17 @@ export default function Form(props: Props) {
         </div>
         <div className="form-control w-full mt-4">
           <TextField
+            {...form.register('place_of_birth', { required: true })}
+            label="Tempat Lahir Pasien"
+            required
+            className="mt-1 block w-full"
+            defaultValue={form.formState.defaultValues?.place_of_birth}
+            error={form.formState.errors?.place_of_birth != null}
+            helperText={form.formState.errors.name?.message}
+          />
+        </div>
+        <div className="form-control w-full mt-4">
+          <TextField
             {...form.register('date_of_birth', { required: true })}
             type='date'
             required
