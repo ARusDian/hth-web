@@ -14,7 +14,7 @@ export default function AuthenticationCard({
       <div className="w-screen h-full lg:h-screen flex">
         <div className="basis-1/2">
           <img
-            src={asset('root', 'assets/image/login-img.png')}
+            src={asset('root', 'assets/image/login-img.jpeg')}
             className="object-cover w-full h-full"
           />
         </div>

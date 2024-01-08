@@ -271,7 +271,7 @@ export default function DashboardAdminLayout({
                 Log Aktivitas
               </ResponsiveNavLink>
             </li>
-            <Divider >
+            {/* <Divider >
               DEV
             </Divider>
             <li>
@@ -307,7 +307,7 @@ export default function DashboardAdminLayout({
                 </span>
                 dumpStorageLogs
               </a>
-            </li>
+            </li> */}
           </>
         )}
 
