@@ -42,7 +42,7 @@ export interface MedicalRecordModel extends BaseMedicalRecordModel {
     id: number;
 }
 
-interface DiseaseRecordModel {
+export interface DiseaseRecordModel {
     id: number;
     disease_id: number;
     sub_disease_id: number;

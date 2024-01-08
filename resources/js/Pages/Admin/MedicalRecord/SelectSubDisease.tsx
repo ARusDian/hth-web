@@ -1,6 +1,7 @@
 import MRTSelectRowTable from "@/Components/MRTSelectRowTable";
 import AdminFormLayout from "@/Layouts/Admin/AdminFormLayout";
 import { DiseaseModel } from "@/Models/Disease";
+import { DiseaseRecordModel } from "@/Models/MedicalRecord";
 import { SubDiseaseModel } from "@/Models/SubDisease";
 import Api from "@/Utils/Api";
 import { Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from "@mui/material";
@@ -10,7 +11,7 @@ import route from "ziggy-js";
 
 interface Props {
     medical_record: number;
-    record: number;
+    record: DiseaseRecordModel;
     disease: DiseaseModel;
     sub_diseases: SubDiseaseModel[];
 
@@ -23,6 +24,9 @@ export default function SelectSubDisease(props: Props) {
     const form = useForm<{
         sub_disease_id: number;
     }>({
+        defaultValues: {
+            sub_disease_id: props.record.sub_disease_id || props.sub_diseases[0].id
+        }
     });
 
     async function onSubmit(value: any) {
@@ -55,7 +59,7 @@ export default function SelectSubDisease(props: Props) {
                                 <RadioGroup
                                     aria-labelledby="demo-radio-buttons-group-label"
                                     name="radio-buttons-group"
-                                    defaultValue={props.sub_diseases[0].id}
+                                    defaultValue={form.formState.defaultValues?.sub_disease_id || props.sub_diseases[0].id}
                                     onChange={field.onChange}
                                 >
                                     {props.sub_diseases.map((sub_disease) => (

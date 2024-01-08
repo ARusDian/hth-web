@@ -253,9 +253,9 @@ class MedicalRecordController extends Controller
 
     public function selectSubDisesase(
         $medical_record,
-        $record
+        DiseaseRecord $record
     ) {
-        $disease = DiseaseRecord::find($record)->disease;
+        $disease = DiseaseRecord::find($record->id)->disease;
 
         $sub_diseases = $disease->subDiseases;
 
