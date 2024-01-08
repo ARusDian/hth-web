@@ -25,17 +25,17 @@ class DiseaseSeeder extends Seeder
     [
     "name" => "KMP Vital",
     "problem" => "Lubang gigi KMP Vital",
-    "diagnosis" => "Tidak terpenuhinya kondisi biologis gigi geligi yang baik sehubungan adanya karies mencapai pulpa",
+    "diagnosis" => "Tidak terpenuhinya kebutuhan akan bebas dari rasa nyeri pada kepala dan leher sehubungan dengan adanya karies mencapai pulpa",
     ],
     [
     "name" => "KMP Non Vital",
     "problem" => "Lubang gigi KMP Non Vital",
-    "diagnosis" => "Tidak terpenuhinya kondisi biologis gigi geligi yang baik sehubungan adanya karies mencapai pulpa non vital",
+    "diagnosis" => "Tidak terpenuhinya kondisi biologis gigi geligi yang baik sehubungan dengan karies mencapai pulpa non vital",
     ],
     [
     "name" => "KMP Non Vital disertai Mobility",
     "problem" => "Lubang gigi KMP Non Vital disertai Mobility",
-    "diagnosis" => "Tidak terpenuhinya kondisi biologis gigi geligi yang baik sehubungan adanya karies mencapai pulpa disertai mobility",
+    "diagnosis" => "Tidak terpenuhinya kebutuhan akan bebas dari rasa cemas/stress sehubungan dengan karies mencapai pulpa disertai mobilty",
     ],
     [
     "name" => "Kalkulus pada gigi posterior/seluruh permukaan gigi",
@@ -45,7 +45,7 @@ class DiseaseSeeder extends Seeder
     [
     "name" => "Kalkulus pada gigi anterior",
     "problem" => "Penumpukan kalkulus",
-    "diagnosis" => "Tidak terpenuhinya kebutuhan akan kesan wajah yang sehat sehubungan dengan adanya kalkulus pada gigianterior",
+    "diagnosis" => "Tidak terpenuhinya kebutuhan akan kesan wajah yang sehat sehubungan dengan adanya kalkulus pada gigi anterior",
     ],
     [
     "name" => "Pit dan fissure yang dalam dan sempit",
