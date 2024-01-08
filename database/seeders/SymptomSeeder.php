@@ -21,11 +21,12 @@ class SymptomSeeder extends Seeder
     "Mengurangi estetika kesan wajah yang sehat",
     "Permukaan gigi terasa kasar dan kotor pada gigi anterior",
     "Ceruk dalam dan sempit",
-    "Kegoyangan gigi tidak dirasakan oleh pasien",
-    "Kegoyangan gigi dapat dirasakan oleh pasien",
-    "Gigi dapat digoyangkan menggunakan lidah pasien",
-    "Gigi mudah digoyangkan",
-    "Gigi berjejal Pengetahuan perkembangan gigi rendah"
+    // "Kegoyangan gigi tidak dirasakan oleh pasien",
+    // "Kegoyangan gigi dapat dirasakan oleh pasien",
+    // "Gigi dapat digoyangkan menggunakan lidah pasien",
+    // "Gigi mudah digoyangkan",
+    "Gigi berjejal",
+    "Pengetahuan perkembangan gigi rendah"
     ];
 
     protected $disease = [
@@ -96,7 +97,12 @@ class SymptomSeeder extends Seeder
     [
     "disease_id" => 9,
     "symptom_id" => 14,
-    ]
+    ],
+    [
+    "disease_id" => 9,
+    "symptom_id" => 15,
+    ],
+    
     ];
 
 
