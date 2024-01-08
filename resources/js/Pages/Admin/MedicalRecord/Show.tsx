@@ -118,7 +118,7 @@ export default function Show(props: Props) {
             </tr>
             <tr className="border-b py-3 border-black">
               <td className="py-3 text-center">Keluhan Tambahan</td>
-              <td className="py-3 text-center">{medical_record.additional_complaint}</td>
+              <td className="py-3 text-center">{medical_record.additional_complaint ?? "-"}</td>
             </tr>
             <tr className="border-b py-3 border-black">
               <td className="py-3 text-center">Golongan Darah</td>

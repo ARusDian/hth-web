@@ -270,7 +270,7 @@ export default function Form(props: Props) {
           </div>
           <Controller
             control={form.control}
-            name="gender"
+            name="blood_type"
             render={({ field }) => {
               return (
                 <>
@@ -300,7 +300,7 @@ export default function Form(props: Props) {
                   </ToggleButtonGroup>
                   <InputError
                     className="mt-2"
-                    message={form.formState.errors.gender?.message}
+                    message={form.formState.errors.blood_type?.message}
                   />
                 </>
               );
