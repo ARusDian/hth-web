@@ -149,6 +149,12 @@ class MedicalRecordController extends Controller
         {
             return $item->treatments ?? [];
         })->flatten())->unique('id')->values();
+        
+
+        $medicalRecord->reasons = $diseases->map(function ($item)
+        {
+            return $item->reasons;
+        })->flatten()->unique('id')->values();
 
         $pdf = PDF::loadView('exports.exportMedicalRecord', [
             'medicalRecord' => $medicalRecord,

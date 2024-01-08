@@ -261,12 +261,32 @@
                 </div>
             </div>
             <div>
-                <p class="text-xl font-bold">Hasil Diagnosa Penyakit :</p>
+                <p class="text-xl font-bold">Diagnosa :</p>
+                <div>
+                    <ol>
+                        @foreach ($medicalRecord->diseaseRecords as $record)
+                        <li>{{ $record->disease->diagnosis }}</li>
+                        @endforeach
+                    </ol>
+                </div>
+            </div>
+            <div>
+                <p class="text-xl font-bold">Penyakit :</p>
                 <div>
                     <ol>
                         @foreach ($medicalRecord->diseaseRecords as $record)
                         <li>{{ $record->disease->name }} {{$record->subDisease ? " - " . $record->subDisease->name :
                             ""}}</li>
+                        @endforeach
+                    </ol>
+                </div>
+            </div>
+            <div>
+                <p class="text-xl font-bold">Kemungkinan Penyebab Masalah :</p>
+                <div>
+                    <ol>
+                        @foreach ($medicalRecord->reasons as $reason)
+                        <li>{{ $reason->description }}</li>
                         @endforeach
                     </ol>
                 </div>
