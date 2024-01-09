@@ -28,11 +28,11 @@ export default function AdminTableLayout({
   isAdminOnlyAction,
 }: React.PropsWithChildren<Props>) {
   const page = usePage();
-  // const user = page.props.user as unknown as User;
-  // const isAdmin = user.roles.some(
-  //   role => role.name === 'super-admin' || role.name === 'admin',
-  // );
-  const allowedAction = true;
+  const user = page.props.user as unknown as User;
+  const isAdmin = user.roles.some(
+    role => role.name === 'super-admin' || role.name === 'admin',
+  );
+  const allowedAction = isAdmin || !isAdminOnlyAction;
   return (
     <DashboardAdminLayout title={title}>
       <div className="p-6 ">

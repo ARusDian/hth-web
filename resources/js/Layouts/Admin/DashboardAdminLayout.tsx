@@ -125,7 +125,7 @@ export default function DashboardAdminLayout({
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
 
   const { props } = usePage();
-  // const user = props.user as unknown as User;
+  const user = props.user as unknown as User;
 
   const toggleDrawer =
     (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -142,7 +142,7 @@ export default function DashboardAdminLayout({
   const sideBar = () => (
     <Box sx={{ width: drawerWidth }} role="presentation">
       <ul className="">
-        {/* <li>
+        <li>
           <ResponsiveNavLink
             href={route('profile.show')}
             active={route().current('profile.show')}
@@ -163,7 +163,7 @@ export default function DashboardAdminLayout({
               </div>
             </div>
           </ResponsiveNavLink>
-        </li> */}
+        </li>
         <li>
           <ResponsiveNavLink
             href={route('dashboard')}
@@ -241,7 +241,7 @@ export default function DashboardAdminLayout({
             Perawatan
           </ResponsiveNavLink>
         </li>
-        {/* {user.roles.some(role => role.name === 'super-admin') && (
+        {user.roles.some(role => role.name === 'super-admin') && (
           <>
             <Divider >
               Admin
@@ -267,7 +267,7 @@ export default function DashboardAdminLayout({
                 </span>
                 Log Aktivitas
               </ResponsiveNavLink>
-            </li> */}
+            </li>
             {/* <Divider >
               DEV
             </Divider>
@@ -305,8 +305,8 @@ export default function DashboardAdminLayout({
                 dumpStorageLogs
               </a>
             </li> */}
-          {/* </>
-        )} */}
+          </>
+        )}
 
       </ul>
     </Box>

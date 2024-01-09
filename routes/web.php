@@ -30,17 +30,7 @@ Route::get("/", function () {
     return redirect(route("login"));
 });
 
-Route::get("/guide-book", [DashboardController::class, "guide"])->name("guide");
-Route::get("/dashboard", [DashboardController::class, "index"])->name("dashboard");
-Route::resource("symptom", SymptomController::class);
-Route::resource("treatment", TreatmentController::class);
-Route::resource("reason", ReasonController::class);
-Route::resource("disease", DiseaseController::class);
-Route::resource("sub-disease", SubDiseaseController::class);
-Route::resource("medical-record", MedicalRecordController::class);
-Route::get("/medical-record/{medical_record}/export", [MedicalRecordController::class, "exportPDF"])->name("medical-record.export");
-Route::get("/medical-record/{medical_record}/record/{record}/sub-disease", [MedicalRecordController::class, "selectSubDisesase"])->name("medical-record.select-sub-disease");
-Route::post("/medical-record/{medical_record}/record/{record}/sub-disease", [MedicalRecordController::class, "setSubDisease"])->name("medical-record.store-sub-disease");
+
 Route::middleware([
     "auth:sanctum",
     config("jetstream.auth_session"),
@@ -49,9 +39,19 @@ Route::middleware([
     Route::get("/user/profile", [UserProfileController::class, "show"])->name("profile.show");
     
     Route::middleware(["role:super-admin|admin"])->group(function () {
+        Route::get("/dashboard", [DashboardController::class, "index"])->name("dashboard");
         Route::prefix("admin")->group(function () {
+            Route::get("/guide-book", [DashboardController::class, "guide"])->name("guide");
 
-           
+            Route::resource("symptom", SymptomController::class);
+            Route::resource("treatment", TreatmentController::class);
+            Route::resource("reason", ReasonController::class);
+            Route::resource("disease", DiseaseController::class);
+            Route::resource("sub-disease", SubDiseaseController::class);
+            Route::resource("medical-record", MedicalRecordController::class);
+            Route::get("/medical-record/{medical_record}/export", [MedicalRecordController::class, "exportPDF"])->name("medical-record.export");
+            Route::get("/medical-record/{medical_record}/record/{record}/sub-disease", [MedicalRecordController::class, "selectSubDisesase"])->name("medical-record.select-sub-disease");
+            Route::post("/medical-record/{medical_record}/record/{record}/sub-disease", [MedicalRecordController::class, "setSubDisease"])->name("medical-record.store-sub-disease");
 
             Route::middleware(["role:super-admin"])->group(function () {
                 Route::resource("/user", UserController::class);
