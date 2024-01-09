@@ -241,7 +241,7 @@ export default function DashboardAdminLayout({
             Perawatan
           </ResponsiveNavLink>
         </li>
-        {user.roles.some(role => role.name === 'super-admin') && (
+        {/* {user.roles.some(role => role.name === 'super-admin') && (
           <>
             <Divider >
               Admin
@@ -267,7 +267,7 @@ export default function DashboardAdminLayout({
                 </span>
                 Log Aktivitas
               </ResponsiveNavLink>
-            </li>
+            </li> */}
             {/* <Divider >
               DEV
             </Divider>
@@ -305,8 +305,8 @@ export default function DashboardAdminLayout({
                 dumpStorageLogs
               </a>
             </li> */}
-          </>
-        )}
+          {/* </>
+        )} */}
 
       </ul>
     </Box>
