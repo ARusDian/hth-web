@@ -30,6 +30,7 @@ Route::get("/", function () {
     return redirect(route("login"));
 });
 
+Route::get("/guide-book", [DashboardController::class, "guide"])->name("guide");
 
 Route::middleware([
     "auth:sanctum",
@@ -41,7 +42,6 @@ Route::middleware([
     Route::middleware(["role:super-admin|admin"])->group(function () {
         Route::get("/dashboard", [DashboardController::class, "index"])->name("dashboard");
         Route::prefix("admin")->group(function () {
-            Route::get("/guide-book", [DashboardController::class, "guide"])->name("guide");
 
             Route::resource("symptom", SymptomController::class);
             Route::resource("treatment", TreatmentController::class);
