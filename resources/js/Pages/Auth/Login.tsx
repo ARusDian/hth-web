@@ -49,7 +49,6 @@ export default function Login({ canResetPassword, status }: Props) {
             onChange={e => form.setData('email', e.currentTarget.value)}
             required
             autoFocus
-            autoComplete='email'
           />
           <InputError className="mt-2" message={form.errors.email} />
         </div>
@@ -63,7 +62,7 @@ export default function Login({ canResetPassword, status }: Props) {
             value={form.data.password}
             onChange={e => form.setData('password', e.currentTarget.value)}
             required
-            autoComplete="password"
+            autoComplete="current-password"
           />
           <InputError className="mt-2" message={form.errors.password} />
         </div>
