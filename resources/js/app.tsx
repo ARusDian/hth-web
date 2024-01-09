@@ -25,7 +25,6 @@ createInertiaApp({
   setup({ el, App, props }) {
     const root = createRoot(el);
     return root.render(
-      <VersionContext.Provider value="1.1.0">
         <ThemeProvider theme={theme}>
           <ConfirmProvider>
             <RouteContext.Provider value={(window as any).route}>
@@ -33,7 +32,6 @@ createInertiaApp({
             </RouteContext.Provider>
           </ConfirmProvider>
         </ThemeProvider>
-      </VersionContext.Provider>,
     );
   },
 });

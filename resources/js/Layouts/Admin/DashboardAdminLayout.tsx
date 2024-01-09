@@ -32,7 +32,6 @@ import TableRowsIcon from '@mui/icons-material/TableRows';
 import BackupIcon from '@mui/icons-material/Backup';
 import { asset } from '@/Models/Helper';
 import { User } from '@/types';
-import { VersionContext } from '@/Context/VersionContext';
 
 interface Props {
   title: string;
@@ -127,8 +126,6 @@ export default function DashboardAdminLayout({
 
   const { props } = usePage();
   const user = props.user as unknown as User;
-
-  const version = useContext(VersionContext);
 
   const toggleDrawer =
     (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -394,7 +391,7 @@ export default function DashboardAdminLayout({
         </Box>
       </Box>
       <div className="w-full bg-blue-50 fixed bottom-0 text-center shadow shadow-sky-400/50 py-1">
-        HTH &copy; {new Date().getFullYear()} v{version}
+        HTH &copy; {new Date().getFullYear()}
       </div>
     </div>
   );
