@@ -9,7 +9,6 @@ import { ThemeProvider } from '@mui/material';
 import { theme } from './muiTheme';
 import { ConfirmProvider } from 'material-ui-confirm';
 import { createRoot } from 'react-dom/client';
-import { VersionContext } from './Context/VersionContext';
 
 const appName =
   window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
