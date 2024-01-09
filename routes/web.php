@@ -30,7 +30,6 @@ Route::get("/", function () {
     return redirect(route("login"));
 });
 
-Route::get("/dashboard", [DashboardController::class, "index"])->name("dashboard");
 
 Route::middleware([
     "auth:sanctum",
@@ -40,6 +39,7 @@ Route::middleware([
     Route::get("/user/profile", [UserProfileController::class, "show"])->name("profile.show");
     
     Route::middleware(["role:super-admin|admin"])->group(function () {
+        Route::get("/dashboard", [DashboardController::class, "index"])->name("dashboard");
         Route::prefix("admin")->group(function () {
             Route::get("/guide-book", [DashboardController::class, "guide"])->name("guide");
 
