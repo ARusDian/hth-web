@@ -89,5 +89,7 @@ class SymptomController extends Controller
         //
 
         $symptom->delete();
+
+        return redirect()->route('symptom.index');
     }
 }
