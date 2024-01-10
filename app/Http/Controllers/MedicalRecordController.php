@@ -89,9 +89,7 @@ class MedicalRecordController extends Controller
         }));
 
 
-        return redirect()->route('medical-record.index')->banner('Medical Record created.');
-    }
-
+        return redirect()->route('medical-record.index')->banner('Data Rekam Medis berhasil ditambahkan.');
     /**
      * Display the specified resource.
      */
@@ -237,7 +235,7 @@ class MedicalRecordController extends Controller
         });
 
 
-        return redirect()->route('medical-record.show', $medicalRecord)->banner('Medical Record updated.');
+        return redirect()->route('medical-record.show', $medicalRecord)->banner('Data Rekam Medis berhasil diubah.');
     }
 
     /**
@@ -248,7 +246,7 @@ class MedicalRecordController extends Controller
         //
         $medicalRecord->delete();
 
-        return redirect()->route('medical-record.index')->banner('Medical Record deleted.');
+        return redirect()->route('medical-record.index')->banner('Data Rekam Medis berhasil dihapus.');
     }
 
     public function selectSubDisesase(
@@ -283,6 +281,6 @@ class MedicalRecordController extends Controller
         $disease_record->save();
 
 
-        return redirect()->route('medical-record.show', $request->medical_record)->banner('Sub Disease set.');
+        return redirect()->route('medical-record.show', $request->medical_record)->banner('Sub Penyakit Dipilih.');
     }
 }

@@ -43,7 +43,7 @@ class ReasonController extends Controller
 
         Reason::create($request->all());
 
-        return redirect()->route('reason.index');
+        return redirect()->route('reason.index')->banner('Data Penyebab Masalah berhasil ditambahkan');
     }
 
     /**
@@ -83,7 +83,7 @@ class ReasonController extends Controller
 
         $reason->update($request->all());
 
-        return redirect()->route('reason.index');
+        return redirect()->route('reason.index')->banner('Data Penyebab Masalah berhasil diubah');
     }
 
     /**
@@ -95,6 +95,6 @@ class ReasonController extends Controller
 
         $reason->delete();
 
-        return redirect()->route('reason.index');
+        return redirect()->route('reason.index')->banner('Data Penyebab Masalah berhasil dihapus');
     }
 }

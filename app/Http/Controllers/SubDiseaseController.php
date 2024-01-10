@@ -62,7 +62,7 @@ class SubDiseaseController extends Controller
             return $item['id'];
         }, $request->treatments));
 
-        return redirect()->route('sub-disease.index')->banner('Sub Disease created successfully.');
+        return redirect()->route('sub-disease.index')->banner('Data Sub Penyakit berhasil ditambahkan.');
     }
 
     /**
@@ -116,7 +116,7 @@ class SubDiseaseController extends Controller
             return $item['id'];
         }, $request->treatments));
 
-        return redirect()->route('sub-disease.index')->banner('Sub Disease updated successfully.');
+        return redirect()->route('sub-disease.index')->banner('Data Sub Penyakit berhasil diubah.');
     }
 
     /**
@@ -128,6 +128,6 @@ class SubDiseaseController extends Controller
 
         $subDisease->delete();
 
-        return redirect()->route('sub-disease.index')->banner('Sub Disease deleted successfully.');
+        return redirect()->route('sub-disease.index')->banner('Data Sub Penyakit berhasil dihapus.');
     }
 }

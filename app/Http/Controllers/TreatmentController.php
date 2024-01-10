@@ -41,7 +41,7 @@ class TreatmentController extends Controller
 
         Treatment::create($request->all());
 
-        return redirect()->route('treatment.index');
+        return redirect()->route('treatment.index')->banner('Data Perawatan berhasil ditambahkan');
     }
 
     /**
@@ -81,7 +81,7 @@ class TreatmentController extends Controller
 
         $treatment->update($request->all());
 
-        return redirect()->route('treatment.index');
+        return redirect()->route('treatment.index')->banner('Data Perawatan berhasil diubah');
     }
 
     /**
@@ -92,6 +92,6 @@ class TreatmentController extends Controller
         //
         $treatment->delete();
 
-        return redirect()->route('treatment.index');
+        return redirect()->route('treatment.index')->banner('Data Perawatan berhasil dihapus');
     }
 }

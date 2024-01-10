@@ -41,7 +41,7 @@ class SymptomController extends Controller
 
         Symptom::create($request->all());
 
-        return redirect()->route('symptom.index');
+        return redirect()->route('symptom.index')->banner('Data Gejala berhasil ditambahkan');
     }
 
     /**
@@ -78,7 +78,7 @@ class SymptomController extends Controller
 
         $symptom->update($request->all());
 
-        return redirect()->route('symptom.index');
+        return redirect()->route('symptom.index')->banner('Data Gejala berhasil diubah');
     }
 
     /**
@@ -90,6 +90,6 @@ class SymptomController extends Controller
 
         $symptom->delete();
 
-        return redirect()->route('symptom.index');
+        return redirect()->route('symptom.index')->banner('Data Gejala berhasil dihapus');
     }
 }

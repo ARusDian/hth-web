@@ -257,7 +257,7 @@ export default function DashboardAdminLayout({
                 Pengguna
               </ResponsiveNavLink>
             </li>
-            <li>
+            {/* <li>
               <ResponsiveNavLink
                 href={route('user-activity')}
                 active={route().current()?.startsWith('user-activity')}
@@ -267,7 +267,7 @@ export default function DashboardAdminLayout({
                 </span>
                 Log Aktivitas
               </ResponsiveNavLink>
-            </li>
+            </li> */}
             {/* <Divider >
               DEV
             </Divider>

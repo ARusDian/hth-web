@@ -82,7 +82,7 @@ class DiseaseController extends Controller
             return $treatment['id'];
         }, $request->treatments));
 
-        return redirect()->route('disease.index');
+        return redirect()->route('disease.index')->banner( 'Data penyakit berhasil ditambahkan.');
     }
 
     /**
@@ -164,7 +164,7 @@ class DiseaseController extends Controller
             return $treatment['id'];
         }, $request->treatments));
 
-        return redirect()->route('disease.show', $disease->id);
+        return redirect()->route('disease.show', $disease->id)->banner( 'Data penyakit berhasil diubah.');
 
 
     }
@@ -178,6 +178,6 @@ class DiseaseController extends Controller
 
         $disease->delete();
 
-        return redirect()->route('disease.index');
+        return redirect()->route('disease.index')->banner( 'Data penyakit berhasil dihapus.');
     }
 }
