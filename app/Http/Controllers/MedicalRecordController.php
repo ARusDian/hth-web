@@ -90,6 +90,8 @@ class MedicalRecordController extends Controller
 
 
         return redirect()->route('medical-record.index')->banner('Data Rekam Medis berhasil ditambahkan.');
+    }
+    
     /**
      * Display the specified resource.
      */
