@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Disease;
 use App\Models\SubDisease;
+use App\Models\Symptom;
 use App\Models\Treatment;
 use Illuminate\Http\Request;
 
@@ -30,11 +31,13 @@ class SubDiseaseController extends Controller
     {
         //
         $diseases = Disease::all();
+        $symptoms = Symptom::all();
         $treatments = Treatment::all();
 
         return inertia('Admin/SubDisease/Create', [
             'diseases' => $diseases,
             'treatments' => $treatments,
+            'symptoms' => $symptoms,
         ]);
 
     }
@@ -71,7 +74,7 @@ class SubDiseaseController extends Controller
     public function show(SubDisease $subDisease)
     {
         //
-        $subDisease->load('disease.symptoms', 'disease.reasons', 'treatments');
+        $subDisease->load('disease.symptoms', 'disease.reasons', 'treatments', 'symptoms');
         return inertia('Admin/SubDisease/Show', [
             'sub_disease' => $subDisease,
         ]);
@@ -86,13 +89,15 @@ class SubDiseaseController extends Controller
         //
         $diseases = Disease::all();
         $treatments = Treatment::all();
+        $symptoms = Symptom::all();
 
-        $subDisease->load('disease', 'treatments');
+        $subDisease->load('disease', 'treatments', 'symptoms');
 
         return inertia('Admin/SubDisease/Edit', [
             'sub_disease' => $subDisease,
             'diseases' => $diseases,
             'treatments' => $treatments,
+            'symptoms' => $symptoms,
         ]);
 
     }
@@ -115,6 +120,11 @@ class SubDiseaseController extends Controller
         {
             return $item['id'];
         }, $request->treatments));
+
+        $subDisease->symptoms()->sync(array_map(function ($item)
+        {
+            return $item['id'];
+        }, $request->symptoms));
 
         return redirect()->route('sub-disease.index')->banner('Data Sub Penyakit berhasil diubah.');
     }

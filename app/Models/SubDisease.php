@@ -65,5 +65,10 @@ class SubDisease extends Model
         return $this->belongsToMany(Treatment::class, 'sub_disease_treatments');
     }
 
+    public function symptoms()
+    {
+        return $this->belongsToMany(Symptom::class, 'sub_disease_symptoms');
+    }
+
 
 }

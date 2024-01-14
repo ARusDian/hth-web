@@ -21,10 +21,10 @@ class SymptomSeeder extends Seeder
     "Mengurangi estetika kesan wajah yang sehat",
     "Permukaan gigi terasa kasar dan kotor pada gigi anterior",
     "Ceruk dalam dan sempit",
-    // "Kegoyangan gigi tidak dirasakan oleh pasien",
-    // "Kegoyangan gigi dapat dirasakan oleh pasien",
-    // "Gigi dapat digoyangkan menggunakan lidah pasien",
-    // "Gigi mudah digoyangkan",
+    "Kegoyangan gigi tidak dirasakan oleh pasien",
+    "Kegoyangan gigi dapat dirasakan oleh pasien",
+    "Gigi dapat digoyangkan menggunakan lidah pasien",
+    "Gigi mudah digoyangkan",
     "Gigi berjejal",
     "Pengetahuan perkembangan gigi rendah"
     ];
@@ -96,13 +96,31 @@ class SymptomSeeder extends Seeder
     ],
     [
     "disease_id" => 9,
-    "symptom_id" => 14,
+    "symptom_id" => 18,
     ],
     [
     "disease_id" => 9,
+    "symptom_id" => 19,
+    ],
+    ];
+
+    protected $sub_disease = [
+    [
+    "sub_disease_id" => 25,
+    "symptom_id" => 14,
+    ],
+    [
+    "sub_disease_id" => 26,
     "symptom_id" => 15,
     ],
-    
+    [
+    "sub_disease_id" => 27,
+    "symptom_id" => 16,
+    ],
+    [
+    "sub_disease_id" => 28,
+    "symptom_id" => 17,
+    ],
     ];
 
 
@@ -125,6 +143,14 @@ class SymptomSeeder extends Seeder
             \App\Models\DiseaseSymptom::create([
                 'disease_id' => $disease['disease_id'],
                 'symptom_id' => $disease['symptom_id'],
+            ]);
+        }
+
+        foreach ($this->sub_disease as $sub_disease)
+        {
+            \App\Models\SubDiseaseSymptom::create([
+                'sub_disease_id' => $sub_disease['sub_disease_id'],
+                'symptom_id' => $sub_disease['symptom_id'],
             ]);
         }
     }

@@ -10,10 +10,12 @@ import Api from '@/Utils/Api';
 import { TreatmentModel } from '@/Models/Treatment';
 import { BaseSubDiseaseModel } from '@/Models/SubDisease';
 import { DiseaseModel } from '@/Models/Disease';
+import { SymptomModel } from '@/Models/Symptom';
 
 interface Props {
   diseases : DiseaseModel[];
-  treatments : TreatmentModel[];
+  treatments: TreatmentModel[];
+  symptoms: SymptomModel[];
 }
 
 export default function Create(props: Props) {
@@ -42,6 +44,7 @@ export default function Create(props: Props) {
           form={form}
           diseases={props.diseases}
           treatments={props.treatments}
+          symptoms={props.symptoms}
           className="my-5 mx-2"
         />
         <div className="flex justify-end">

@@ -21,6 +21,7 @@ interface Props extends React.HTMLAttributes<HTMLElement> {
   form: UseFormReturn<BaseSubDiseaseModel>;
   diseases: DiseaseModel[];
   treatments: TreatmentModel[];
+  symptoms: SymptomModel[];
   className?: string;
 }
 
@@ -90,8 +91,15 @@ export default function Form(props: Props) {
             className="flex-1"
             // icon={<MapRounded />}
             wrapped
-            label="Rencana Perawatan Penyakit"
+            label="Tanda dan Gejala"
             {...a11yProps(1)}
+          />
+          <Tab
+            className="flex-1"
+            // icon={<MapRounded />}
+            wrapped
+            label="Rencana Perawatan Penyakit"
+            {...a11yProps(2)}
           />
         </Tabs>
       </Box>
@@ -137,6 +145,31 @@ export default function Form(props: Props) {
         </div>
       </TabPanel>
       <TabPanel value={tabIndex} index={1}>
+        <div className={`flex-col gap-5 ${props.className}`}>
+          <MRTSelectRowTable<SymptomModel, BaseSubDiseaseModel>
+            form={form}
+            name="symptoms"
+            tableOptions={{
+              columns: [
+                {
+                  accessorKey: 'description',
+                  header: 'Gejala',
+                },
+              ], // Add the columns property here
+              data: props.symptoms, // Add the data property here
+              state: {
+                rowSelection: form.formState.defaultValues?.symptoms?.reduce((acc, cur) => {
+                  if (cur) {
+                    acc[cur.id!] = true;
+                  }
+                  return acc;
+                }, {} as Record<number, boolean>) ?? {},
+              },
+            }}
+          />
+        </div>
+      </TabPanel>
+      <TabPanel value={tabIndex} index={2}>
         <div className={`flex-col gap-5 ${props.className}`}>
           <MRTSelectRowTable<TreatmentModel, BaseSubDiseaseModel>
             form={form}

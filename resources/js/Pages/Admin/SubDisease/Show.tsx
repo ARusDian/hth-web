@@ -84,6 +84,12 @@ export default function Show(props: Props) {
                   <td className="py-3 text-center">{symptom.description}</td>
                 </tr>
               ))}
+              {sub_disease.symptoms && sub_disease.symptoms.map((symptom, index) => (
+                <tr className="border-b py-3 border-black" key={index}>
+                  <td className="py-3 text-center">{(sub_disease.disease.symptoms ? sub_disease.disease.symptoms.length : 0) + index + 1}</td>
+                  <td className="py-3 text-center">{symptom.description}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         ) : (

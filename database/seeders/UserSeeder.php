@@ -25,5 +25,15 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
             'remember_token' => '1234567890',
         ])->assignRole('super-admin');
+
+        User::updateOrCreate([
+            'name' => 'User',
+            'email' => 'metalestari198@gmail.com',
+            'password' => bcrypt('rahasia45'),
+            'gender' => 'P',
+            'address' => 'Earth',
+            'email_verified_at' => now(),
+            'remember_token' => '1234567890',
+        ])->assignRole('admin');
     }
 }

@@ -1,4 +1,5 @@
 import { DiseaseModel } from "./Disease";
+import { SymptomModel } from "./Symptom";
 import { TreatmentModel } from "./Treatment";
 
 export interface BaseSubDiseaseModel {
@@ -7,6 +8,7 @@ export interface BaseSubDiseaseModel {
     name: string;
     disease?: DiseaseModel;
     treatments?: TreatmentModel[];
+    symptoms?: SymptomModel[];
 }
 
 export interface SubDiseaseModel extends BaseSubDiseaseModel {
