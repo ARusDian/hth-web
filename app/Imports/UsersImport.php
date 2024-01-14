@@ -52,7 +52,7 @@ class UsersImport implements
         // );
         // $users->assignRole('student');
 
-        $role_id = Role::where('name', 'student')->first()->id;
+        $role_id = Role::where('name', 'user')->first()->id;
 
         $request = new \Illuminate\Http\Request([
             'name' => $row['nama'],
