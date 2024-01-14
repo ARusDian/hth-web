@@ -27,7 +27,6 @@ export default function Login({ canResetPassword, status }: Props) {
     e.preventDefault();
     form.post(route('login'), {
       onFinish: () => {
-        console.log(form.data)
         form.reset('password')
       },
     });
