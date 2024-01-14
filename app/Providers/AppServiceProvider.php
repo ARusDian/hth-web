@@ -28,5 +28,10 @@ class AppServiceProvider extends ServiceProvider
         {
             \URL::forceScheme('https');
         }
+        else
+        {
+            \URL::forceScheme('http');
+            $this->app->register('Barryvdh\Debugbar\ServiceProvider');
+        }
     }
 }
