@@ -128,7 +128,7 @@
                     <tr>
                         <td>Tempat dan Tanggal Lahir</td>
                         <td>:</td>
-                        <td>{{$medicalRecord->place_of_birth}}, {{ $medicalRecord->date_of_birth }}</td>
+                        <td>{{ $medicalRecord->place_of_birth }}, {{ $medicalRecord->date_of_birth }}</td>
                     </tr>
                     <tr>
                         <td>NIK</td>
@@ -138,12 +138,12 @@
                     <tr>
                         <td>Jenis Kelamin</td>
                         <td>:</td>
-                        <td>{{$medicalRecord->gender == "L" ? "Laki-laki" : "Perempuan"}}</td>
+                        <td>{{ $medicalRecord->gender == 'L' ? 'Laki-laki' : 'Perempuan' }}</td>
                     </tr>
                     <tr>
                         <td>Ras</td>
                         <td>:</td>
-                        <td>{{ $medicalRecord->race ?? "-" }}</td>
+                        <td>{{ $medicalRecord->race ?? '-' }}</td>
                     </tr>
                     <tr>
                         <td>Pekerjaan</td>
@@ -158,7 +158,7 @@
                     <tr>
                         <td>Nomor Telepon Keluarga</td>
                         <td>:</td>
-                        <td>{{ $medicalRecord->family_phone_number ?? "-" }}</td>
+                        <td>{{ $medicalRecord->family_phone_number ?? '-' }}</td>
                     </tr>
                     <tr>
                         <td>Tanggal Pemeriksaan</td>
@@ -179,12 +179,12 @@
                     <tr>
                         <td>Keluhan Tambahan</td>
                         <td>:</td>
-                        <td>{{ $medicalRecord->additional_complaint ?? "-"}}</td>
+                        <td>{{ $medicalRecord->additional_complaint ?? '-' }}</td>
                     </tr>
                     <tr>
                         <td>Golongan Darah</td>
                         <td>:</td>
-                        <td>{{ $medicalRecord->blood_type ?? "-" }}</td>
+                        <td>{{ $medicalRecord->blood_type ?? '-' }}</td>
                     </tr>
                     <tr>
                         <td>Tekanan Darah</td>
@@ -194,12 +194,12 @@
                     <tr>
                         <td>Denyut Nadi</td>
                         <td>:</td>
-                        <td>{{$medicalRecord->pulse}}/Menit</td>
+                        <td>{{ $medicalRecord->pulse }}/Menit</td>
                     </tr>
                     <tr>
                         <td>Suhu Tubuh</td>
                         <td>:</td>
-                        <td>{{ $medicalRecord->body_temperature}} °C</td>
+                        <td>{{ $medicalRecord->body_temperature }} °C</td>
                     </tr>
 
                 </table>
@@ -208,7 +208,8 @@
                     <div class="w-3-4">
                         <ul class="list-none">
                             <li>
-                                <input type="checkbox" {{ $medicalRecord->is_heart_disease ? 'checked' : '' }} disabled>
+                                <input type="checkbox" {{ $medicalRecord->is_heart_disease ? 'checked' : '' }}
+                                    disabled>
                                 <label for="hypertension">Penyakit Jantung</label>
                             <li>
                                 <input type="checkbox" {{ $medicalRecord->is_diabetes ? 'checked' : '' }} disabled>
@@ -232,17 +233,17 @@
                             <tr>
                                 <td>Penyakit Lainnya</td>
                                 <td>:</td>
-                                <td>{{ $medicalRecord->other_disease ?? "-" }}</td>
+                                <td>{{ $medicalRecord->other_disease ?? '-' }}</td>
                             </tr>
                             <tr>
                                 <td>Alergi Makanan</td>
                                 <td>:</td>
-                                <td>{{ $medicalRecord->food_allergy ?? "-" }}</td>
+                                <td>{{ $medicalRecord->food_allergy ?? '-' }}</td>
                             </tr>
                             <tr>
                                 <td>Alergi Obat</td>
                                 <td>:</td>
-                                <td>{{ $medicalRecord->drug_allergy ?? "-" }}</td>
+                                <td>{{ $medicalRecord->drug_allergy ?? '-' }}</td>
                             </tr>
                         </table>
                     </div>
@@ -255,7 +256,7 @@
                 <div>
                     <ol>
                         @foreach ($medicalRecord->symptoms as $symptom)
-                        <li>{{ $symptom->description }}</li>
+                            <li>{{ $symptom->description }}</li>
                         @endforeach
                     </ol>
                 </div>
@@ -265,7 +266,7 @@
                 <div>
                     <ol>
                         @foreach ($medicalRecord->diseaseRecords as $record)
-                        <li>{{ $record->disease->diagnosis }}</li>
+                            <li>{{ $record->disease->diagnosis }} - <b>{{ $record->disease->name }}</b></li>
                         @endforeach
                     </ol>
                 </div>
@@ -275,9 +276,34 @@
                 <div>
                     <ol>
                         @foreach ($medicalRecord->diseaseRecords as $record)
-                        <li>{{ $record->disease->name }} {{$record->subDisease ? " - " . $record->subDisease->name :
-                            ""}}</li>
+                            <li>{{ $record->disease->name }}
+                                <b>
+                                    {{ isset($record->disease->subDiseases) && count($record->disease->subDiseases) < 1
+                                        ? ($record->region
+                                            ? ' : ' . join(', ', $record->region)
+                                            : ' : Belum Pilih Region')
+                                        : '' }}
+                                </b>
+                                @if (isset($record->subDiseaseRecords) && count($record->subDiseaseRecords) > 0)
+                                    <ul>
+                                        @foreach ($record->subDiseaseRecords as $subDiseaseRecord)
+                                            <li>{{ $subDiseaseRecord->subDisease->name }}
+                                                <b>
+                                                    {{ $subDiseaseRecord->region ? ' : ' . join(', ', $subDiseaseRecord->region) : ' : Belum Pilih Region' }}
+                                                </b>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @else
+                                    @if (isset($record->disease->subDiseases) && count($record->disease->subDiseases) > 0)
+                                        <ul>
+                                            <li>Belum Pilih Sub Penyakit</li>
+                                        </ul>
+                                    @endif
+                                @endif
                         @endforeach
+                        </li>
+
                     </ol>
                 </div>
             </div>
@@ -286,7 +312,7 @@
                 <div>
                     <ol>
                         @foreach ($medicalRecord->reasons as $reason)
-                        <li>{{ $reason->description }}</li>
+                            <li>{{ $reason->description }}</li>
                         @endforeach
                     </ol>
                 </div>
@@ -296,7 +322,7 @@
                 <div>
                     <ol>
                         @foreach ($medicalRecord->treatments as $treatment)
-                        <li>{{ $treatment->description }} </li>
+                            <li>{{ $treatment->description }} </li>
                         @endforeach
                     </ol>
                 </div>

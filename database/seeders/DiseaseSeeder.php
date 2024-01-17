@@ -30,7 +30,7 @@ class DiseaseSeeder extends Seeder
     [
     "name" => "KMP Non Vital",
     "problem" => "Lubang gigi KMP Non Vital",
-    "diagnosis" => "Tidak terpenuhinya kondisi biologis gigi geligi yang baik sehubungan dengan karies mencapai pulpa non vital",
+    "diagnosis" => "Tidak terpenuhinya kebutuhan akan bebas dari rasa cemas/stress sehubungan dengan adanya gigi mobility",
     ],
     [
     "name" => "KMP Non Vital disertai Mobility",

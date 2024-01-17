@@ -97,6 +97,10 @@ class ReasonSeeder extends Seeder
     "reason_id" => 5,
     ],
     [
+    "disease_id" => 5,
+    "reason_id" => 8,
+    ],
+    [
     "disease_id" => 6,
     "reason_id" => 1,
     ],

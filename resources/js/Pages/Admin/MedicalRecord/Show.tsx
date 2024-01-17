@@ -124,18 +124,18 @@ export default function Show(props: Props) {
                 <th className="py-3 text-center">Region</th>
                 <th className="py-3 text-center">Aksi</th>
               </tr>
-              {row.original.sub_disease_records.sort((a, b) => a.sub_disease_id - b.sub_disease_id).map((sub_disease, index) => (
+              {row.original.sub_disease_records.sort((a, b) => a.sub_disease_id - b.sub_disease_id).map((sub_disease_record, index) => (
                 <tr className="border-b py-3 border-black" key={index}>
                   <td className="py-3 text-center">{index + 1}</td>
-                  <td className="py-3 text-center">{sub_disease.sub_disease?.name}</td>
-                  <td className="py-3 text-center">{sub_disease.region && sub_disease.region.length > 0 ? (
-                    <span>{sub_disease.region.sort((a, b) => a - b).join(',')}</span>
+                  <td className="py-3 text-center">{sub_disease_record.sub_disease?.name}</td>
+                  <td className="py-3 text-center">{sub_disease_record.region && sub_disease_record.region.length > 0 ? (
+                    <span>{sub_disease_record.region.sort((a, b) => a - b).join(',')}</span>
                   ) : "Belum ada region"
                   }</td>
                   <td className="py-3 text-center flex justify-center gap-3">
                     <MuiInertiaLinkButton
                       color="primary"
-                      href={route('sub-disease.show', sub_disease.id)}
+                      href={route('sub-disease.show', sub_disease_record.sub_disease_id)}
                     >
                       Lihat Sub Penyakit
                     </MuiInertiaLinkButton>
@@ -144,7 +144,7 @@ export default function Show(props: Props) {
                       href={route('medical-record.select-region', {
                         medical_record,
                         record: row.original.id,
-                        sub_record: sub_disease.id
+                        sub_record: sub_disease_record.id
                       })}
                     >
                       Pilih Region
