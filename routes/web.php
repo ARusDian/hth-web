@@ -52,6 +52,8 @@ Route::middleware([
             Route::get("/medical-record/{medical_record}/export", [MedicalRecordController::class, "exportPDF"])->name("medical-record.export");
             Route::get("/medical-record/{medical_record}/record/{record}/sub-disease", [MedicalRecordController::class, "selectSubDisesase"])->name("medical-record.select-sub-disease");
             Route::post("/medical-record/{medical_record}/record/{record}/sub-disease", [MedicalRecordController::class, "setSubDisease"])->name("medical-record.store-sub-disease");
+            Route::get('/medical-record/{medical_record}/record/{record}/region',[MedicalRecordController::class, "selectRegion"])->name("medical-record.select-region");
+            Route::post('/medical-record/{medical_record}/record/{record}/region',[MedicalRecordController::class, "setRegion"])->name("medical-record.store-region");
 
             Route::middleware(["role:super-admin"])->group(function () {
                 Route::resource("/user", UserController::class);

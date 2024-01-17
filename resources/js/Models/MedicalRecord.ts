@@ -50,7 +50,7 @@ export interface DiseaseRecordModel {
     disease?: DiseaseModel;
     sub_disease_records?: SubDiseaseRecordModel[];
     sub_diseases?: SubDiseaseModel[];
-    region?: Number[];
+    region?: number[];
     created_at: string;
     updated_at: string;
 }
@@ -60,7 +60,7 @@ export interface SubDiseaseRecordModel {
     sub_disease_id: number;
     medical_record_id: number;
     sub_disease?: SubDiseaseModel;
-    region?: Number[];
+    region?: number[];
     created_at: string;
     updated_at: string;
 }

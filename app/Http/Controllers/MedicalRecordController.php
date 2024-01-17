@@ -166,7 +166,7 @@ class MedicalRecordController extends Controller
         $medicalRecord->load(['diseaseRecords.disease.treatments', 'diseaseRecords.disease.subDiseases', 'diseaseRecords.subDiseaseRecords.subDisease.treatments']);
 
         // Mengambil data gejala yang terkait dengan rekam medis
-        
+
         $sub_diseases = $medicalRecord->diseaseRecords->map(function ($item)
         {
             return $item->subDiseaseRecords->map(function ($item)
@@ -181,7 +181,7 @@ class MedicalRecordController extends Controller
         })->unique('id')->values();
 
         // Mengambil data gejala yang terkait dengan penyakit yang terkait dengan rekam medis
-        
+
         $medicalRecord->symptoms = $diseases->map(function ($item) use ($diseases, $medicalRecord)
         {
             return $item->symptoms->load(['diseases' => function ($query) use ($diseases)
@@ -383,4 +383,64 @@ class MedicalRecordController extends Controller
 
         return redirect()->route('medical-record.show', $request->medical_record)->banner('Sub Penyakit Dipilih.');
     }
+
+    public function selectRegion(
+        $medical_record,
+        DiseaseRecord $record,
+        Request $request
+    ) {
+
+        $record->load('disease');
+        if (isset($request->sub_record))
+        {
+            $sub_disease_record = SubDiseaseRecord::find($request->sub_record)->load('subDisease');
+        }
+        else
+        {
+            $sub_disease_record = null;
+        }
+
+        return inertia('Admin/MedicalRecord/SelectRegion', [
+            'medical_record' => $medical_record,
+            'record' => $record,
+            'sub_disease_record' => $sub_disease_record,
+        ]);
+
+    }
+
+    public function setRegion(
+        $medical_record,
+        $record,
+        Request $request
+    ) {
+        $request->validate([
+            'region' => 'array',
+        ]);
+
+        if (isset($request->sub_record))
+        {
+            $sub_disease_record = SubDiseaseRecord::find($request->sub_record)->load('subDisease');
+        }
+        else
+        {
+            $sub_disease_record = null;
+        }
+
+        if ($sub_disease_record)
+        {
+            $sub_disease_record->region = $request->region;
+            $sub_disease_record->save();
+        }
+        else
+        {
+            $disease_record = DiseaseRecord::find($record)->load('subDiseaseRecords');
+
+            $disease_record->region = $request->region;
+            $disease_record->save();
+        }
+
+        return redirect()->route('medical-record.show', $medical_record)->banner('Region Dipilih.');
+    }
+
+
 }

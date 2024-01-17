@@ -42,7 +42,7 @@ export default function Show(props: Props) {
 
   const diseaseTable = useMaterialReactTable({
     columns: diseaseColumns,
-    data: medical_record.disease_records?.sort((a,b) => a.id - b.id) ?? [],
+    data: medical_record.disease_records?.sort((a, b) => a.id - b.id) ?? [],
     enableGlobalFilter: false,
     enableColumnActions: false,
     enableColumnFilters: false,
@@ -86,10 +86,10 @@ export default function Show(props: Props) {
             (
               <MuiInertiaLinkButton
                 color="success"
-                href={route('medical-record.select-sub-disease', [
+                href={route('medical-record.select-region', {
                   medical_record,
-                  row.original.id,
-                ])}
+                  record: row.original.id,
+                })}
               >
                 Pilih Region
               </MuiInertiaLinkButton>
@@ -107,9 +107,7 @@ export default function Show(props: Props) {
               <div>
                 <p className="font-semibold">Region : {" "}
                   {
-                    row.original.region.map((region, index) => (
-                      <span key={index}>{region.toLocaleString()} </span>
-                    ))
+                    row.original.region.sort((a, b) => a - b).join(',')
                   }
                 </p>
 
@@ -126,14 +124,12 @@ export default function Show(props: Props) {
                 <th className="py-3 text-center">Region</th>
                 <th className="py-3 text-center">Aksi</th>
               </tr>
-              {row.original.sub_disease_records.sort((a,b) => a.sub_disease_id - b.sub_disease_id).map((sub_disease, index) => (
+              {row.original.sub_disease_records.sort((a, b) => a.sub_disease_id - b.sub_disease_id).map((sub_disease, index) => (
                 <tr className="border-b py-3 border-black" key={index}>
                   <td className="py-3 text-center">{index + 1}</td>
                   <td className="py-3 text-center">{sub_disease.sub_disease?.name}</td>
                   <td className="py-3 text-center">{sub_disease.region && sub_disease.region.length > 0 ? (
-                    sub_disease.region.map((region, index) => (
-                      <span key={index}>{region.toLocaleString()} </span>
-                    ))
+                    <span>{sub_disease.region.sort((a, b) => a - b).join(',')}</span>
                   ) : "Belum ada region"
                   }</td>
                   <td className="py-3 text-center flex justify-center gap-3">
@@ -145,7 +141,11 @@ export default function Show(props: Props) {
                     </MuiInertiaLinkButton>
                     <MuiInertiaLinkButton
                       color="success"
-                      href={route('sub-disease.show', sub_disease.id)}
+                      href={route('medical-record.select-region', {
+                        medical_record,
+                        record: row.original.id,
+                        sub_record: sub_disease.id
+                      })}
                     >
                       Pilih Region
                     </MuiInertiaLinkButton>
