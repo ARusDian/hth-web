@@ -20,13 +20,13 @@ interface UserActivity {
   causer: User;
   properties: {
     method:
-      | 'CREATE'
-      | 'UPDATE'
-      | 'DELETE'
-      | 'RESTORE'
-      | 'FORCE_DELETE'
-      | 'IMPORT'
-      | 'EXPORT';
+    | 'CREATE'
+    | 'UPDATE'
+    | 'DELETE'
+    | 'RESTORE'
+    | 'FORCE_DELETE'
+    | 'IMPORT'
+    | 'EXPORT';
   };
   subject_type: string;
   created_at: string;

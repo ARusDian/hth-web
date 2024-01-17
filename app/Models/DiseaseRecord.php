@@ -12,7 +12,11 @@ class DiseaseRecord extends Model
     protected $fillable = [
         "medical_record_id",
         "disease_id",
-        "sub_disease_id",
+        "region",
+    ];
+
+    protected $casts = [
+        'region' => 'array',
     ];
 
     public function disease()
@@ -20,8 +24,17 @@ class DiseaseRecord extends Model
         return $this->belongsTo(Disease::class);
     }
 
-    public function subDisease()
+    public function medicalRecord()
     {
-        return $this->belongsTo(SubDisease::class);
+        return $this->belongsTo(MedicalRecord::class);
+    }
+
+    public function subDiseaseRecords()
+    {
+        return $this->hasMany(SubDiseaseRecord::class);
+    }
+
+    public function subDiseases(){
+        return $this->belongsToMany(SubDisease::class,"sub_disease_records","disease_record_id","sub_disease_id");
     }
 }

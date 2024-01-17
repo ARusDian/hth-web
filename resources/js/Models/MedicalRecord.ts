@@ -45,10 +45,22 @@ export interface MedicalRecordModel extends BaseMedicalRecordModel {
 export interface DiseaseRecordModel {
     id: number;
     disease_id: number;
-    sub_disease_id: number;
+    sub_disease_id: number | null;
     medical_record_id: number;
     disease?: DiseaseModel;
+    sub_disease_records?: SubDiseaseRecordModel[];
+    sub_diseases?: SubDiseaseModel[];
+    region?: Number[];
+    created_at: string;
+    updated_at: string;
+}
+
+export interface SubDiseaseRecordModel {
+    id: number;
+    sub_disease_id: number;
+    medical_record_id: number;
     sub_disease?: SubDiseaseModel;
+    region?: Number[];
     created_at: string;
     updated_at: string;
 }

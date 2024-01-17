@@ -57,4 +57,9 @@ class Symptom extends Model
     {
         return $this->belongsToMany(Disease::class,"disease_symptoms","symptom_id","disease_id");
     }
+
+    public function subDiseases()
+    {
+        return $this->belongsToMany(SubDisease::class,"sub_disease_symptoms","symptom_id","sub_disease_id");
+    }
 }

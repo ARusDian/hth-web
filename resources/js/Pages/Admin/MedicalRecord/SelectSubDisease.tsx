@@ -21,12 +21,10 @@ interface Props {
 
 export default function SelectSubDisease(props: Props) {
 
-    const form = useForm<{
-        sub_disease_id: number;
-    }>({
+    const form = useForm<DiseaseRecordModel>({
         defaultValues: {
-            sub_disease_id: props.record.sub_disease_id || props.sub_diseases[0].id
-        }
+            sub_diseases: props.record.sub_diseases || [],
+        },
     });
 
     async function onSubmit(value: any) {
@@ -50,32 +48,36 @@ export default function SelectSubDisease(props: Props) {
                 onSubmit={form.handleSubmit(onSubmit)}
             >
                 <div className={`flex-col gap-5`}>
-                    <Controller
-                        control={form.control}
-                        name="sub_disease_id"
-                        render={({ field }) => (
-                            <FormControl>
-                                <FormLabel id="demo-radio-buttons-group-label">Sub Penyakit yang dipilih</FormLabel>
-                                <RadioGroup
-                                    aria-labelledby="demo-radio-buttons-group-label"
-                                    name="radio-buttons-group"
-                                    defaultValue={form.formState.defaultValues?.sub_disease_id || props.sub_diseases[0].id}
-                                    onChange={field.onChange}
-                                >
-                                    {props.sub_diseases.map((sub_disease) => (
-                                        <FormControlLabel
-                                            key={sub_disease.id}
-                                            control={<Radio />}
-                                            label={sub_disease.name}
-                                            value={sub_disease.id}
-                                        />
-                                    ))}
-                                </RadioGroup>
-                            </FormControl>
-                        )}
+                    <MRTSelectRowTable<SubDiseaseModel, DiseaseRecordModel>
+                        form={form}
+                        name="sub_diseases"
+                        insertFunction={(data, rowSelection) => (data as SubDiseaseModel[])!.filter((d, i) => {
+                            return rowSelection[d.id];
+                        }).map(it => it.id)}
+                        tableOptions={{
+                            columns: [
+                                {
+                                    accessorKey: 'id',
+                                    header: 'ID',
+                                },
+                                {
+                                    accessorKey: 'name',
+                                    header: 'Sub Penyakit',
+                                },
+                            ], // Add the columns property here
+                            data: props.sub_diseases, // Add the data property here
+                            state: {
+                                rowSelection: form.formState.defaultValues?.sub_diseases?.reduce((acc, cur) => {
+                                    if (cur) {
+                                        acc[cur.id!] = true;
+                                    }
+                                    return acc;
+                                }, {} as Record<number, boolean>) ?? {},
+                            },
+                        }}
                     />
                 </div>
-                <div className="flex justify-end">
+                <div className="flex justify-end my-5">
                     <Button
                         type="submit"
                         variant="contained"

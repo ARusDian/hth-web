@@ -62,7 +62,7 @@ class SubDisease extends Model
     
     public function treatments()
     {
-        return $this->belongsToMany(Treatment::class, 'sub_disease_treatments');
+        return $this->belongsToMany(Treatment::class, 'sub_disease_treatments', 'sub_disease_id', 'treatment_id');
     }
 
     public function symptoms()

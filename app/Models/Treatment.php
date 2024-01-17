@@ -53,8 +53,13 @@ class Treatment extends Model
         }
     }
 
+    public function diseases()
+    {
+        return $this->belongsToMany(Disease::class,"disease_treatments","treatment_id","disease_id");
+    }
+
     public function subDiseases()
     {
-        return $this->belongsToMany(SubDisease::class);
+        return $this->belongsToMany(SubDisease::class,"sub_disease_treatments","treatment_id","sub_disease_id");
     }
 }

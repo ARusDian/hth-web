@@ -3,10 +3,11 @@ import route from 'ziggy-js';
 import { router } from '@inertiajs/react';
 import AdminShowLayout from '@/Layouts/Admin/AdminShowLayout';
 import { useConfirm } from 'material-ui-confirm';
-import { MedicalRecordModel } from '@/Models/MedicalRecord';
+import { DiseaseRecordModel, MedicalRecordModel } from '@/Models/MedicalRecord';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import MuiInertiaLinkButton from '@/Components/MuiInertiaLinkButton';
+import { MRT_ColumnDef, MaterialReactTable, useMaterialReactTable } from 'material-react-table';
 
 interface Props {
   medical_record: MedicalRecordModel;
@@ -14,6 +15,8 @@ interface Props {
 
 export default function Show(props: Props) {
   const medical_record = props.medical_record;
+
+  console.log(medical_record);
 
   const confirm = useConfirm();
 
@@ -27,6 +30,141 @@ export default function Show(props: Props) {
   };
 
   console.log(medical_record);
+
+  const diseaseColumns = React.useMemo<MRT_ColumnDef<DiseaseRecordModel>[]>(
+    () => [
+      {
+        accessorKey: 'disease.name',
+        header: 'Penyakit',
+      },
+
+    ], []) as MRT_ColumnDef<DiseaseRecordModel>[]
+
+  const diseaseTable = useMaterialReactTable({
+    columns: diseaseColumns,
+    data: medical_record.disease_records?.sort((a,b) => a.id - b.id) ?? [],
+    enableGlobalFilter: false,
+    enableColumnActions: false,
+    enableColumnFilters: false,
+    enablePagination: false,
+    enableSorting: false,
+    enableBottomToolbar: false,
+    enableTopToolbar: false,
+    enableRowActions: true,
+    enableExpanding: true,
+    enableExpandAll: true,
+    layoutMode: 'semantic',
+    positionActionsColumn: 'last',
+    muiTableBodyRowProps: { hover: false },
+    muiTableHeadCellProps: {
+      sx: {
+        fontWeight: 'bold',
+        fontSize: '16px',
+      },
+    },
+    renderRowActions: ({ row }) => (
+      <div className="flex   gap-2">
+        <MuiInertiaLinkButton
+          color="primary"
+          href={route('disease.show', row.original.disease!.id)}
+        >
+          Lihat Penyakit
+        </MuiInertiaLinkButton>
+        {
+          row.original.disease!.sub_diseases && row.original.disease!.sub_diseases.length > 0 ?
+            (
+              <MuiInertiaLinkButton
+                color="warning"
+                href={route('medical-record.select-sub-disease', [
+                  medical_record,
+                  row.original.id,
+                ])}
+              >
+                Pilih Sub Penyakit
+              </MuiInertiaLinkButton>
+            ) :
+            (
+              <MuiInertiaLinkButton
+                color="success"
+                href={route('medical-record.select-sub-disease', [
+                  medical_record,
+                  row.original.id,
+                ])}
+              >
+                Pilih Region
+              </MuiInertiaLinkButton>
+            )
+        }
+      </div>
+    ),
+    renderDetailPanel: ({ row }) => (
+      <div className=' my-5 '>
+        <div>
+          {row.original.disease!.sub_diseases && row.original.disease!.sub_diseases.length > 0 ? (
+            null
+          ) :
+            row.original.region && row.original.region.length > 0 ? (
+              <div>
+                <p className="font-semibold">Region : {" "}
+                  {
+                    row.original.region.map((region, index) => (
+                      <span key={index}>{region.toLocaleString()} </span>
+                    ))
+                  }
+                </p>
+
+              </div>
+            ) : <div className='flex justify-center text-lg text-gray-500' >Belum ada region</div>
+          }
+        </div>
+        {row.original.sub_disease_records && row.original.sub_disease_records.length > 0 ? (
+          <table className="w-full">
+            <thead>
+              <tr className="border-b py-3 border-black">
+                <th className="py-3 text-center">No</th>
+                <th className="py-3 text-center">Sub Penyakit</th>
+                <th className="py-3 text-center">Region</th>
+                <th className="py-3 text-center">Aksi</th>
+              </tr>
+              {row.original.sub_disease_records.sort((a,b) => a.sub_disease_id - b.sub_disease_id).map((sub_disease, index) => (
+                <tr className="border-b py-3 border-black" key={index}>
+                  <td className="py-3 text-center">{index + 1}</td>
+                  <td className="py-3 text-center">{sub_disease.sub_disease?.name}</td>
+                  <td className="py-3 text-center">{sub_disease.region && sub_disease.region.length > 0 ? (
+                    sub_disease.region.map((region, index) => (
+                      <span key={index}>{region.toLocaleString()} </span>
+                    ))
+                  ) : "Belum ada region"
+                  }</td>
+                  <td className="py-3 text-center flex justify-center gap-3">
+                    <MuiInertiaLinkButton
+                      color="primary"
+                      href={route('sub-disease.show', sub_disease.id)}
+                    >
+                      Lihat Sub Penyakit
+                    </MuiInertiaLinkButton>
+                    <MuiInertiaLinkButton
+                      color="success"
+                      href={route('sub-disease.show', sub_disease.id)}
+                    >
+                      Pilih Region
+                    </MuiInertiaLinkButton>
+                  </td>
+                </tr>
+              ))}
+            </thead>
+          </table>
+        ) : (
+          row.original.disease!.sub_diseases && row.original.disease!.sub_diseases.length > 0 ? (
+            <div className="flex justify-center text-lg">
+              <span className="text-gray-500">Tidak ada Sub Penyakit</span>
+            </div>
+          ) : null
+        )}
+      </div>
+    ),
+  });
+
 
   return (
     <AdminShowLayout
@@ -184,7 +322,9 @@ export default function Show(props: Props) {
             <thead>
               <tr className="border-b py-3 border-black">
                 <th className="">No</th>
-                <th className="">Nama</th>
+                <th className="">Gejala</th>
+                <th className="">Penyakit</th>
+                <th className="">Sub Penyakit</th>
               </tr>
             </thead>
             <tbody>
@@ -192,6 +332,20 @@ export default function Show(props: Props) {
                 <tr className="border-b py-3 border-black" key={index}>
                   <td className="py-3 text-center">{index + 1}</td>
                   <td className="py-3 text-center">{symptom.description}</td>
+                  <td className="py-3 mx-3">
+                    <ul className='list-disc'>
+                      {symptom.diseases?.map((disease, index) => (
+                        <li className='' key={index}>{disease.name}</li>
+                      ))}
+                    </ul>
+                  </td>
+                  <td className="py-3 mx-3">
+                    <ul className='list-disc'>
+                      {symptom.sub_diseases?.map((sub_disease, index) => (
+                        <li className='' key={index}>{sub_disease.disease.name} - {sub_disease.name}</li>
+                      ))}
+                    </ul>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -206,64 +360,7 @@ export default function Show(props: Props) {
         <div className=''>
           <h2 className="text-2xl font-semibold">Penyakit</h2>
         </div>
-        {medical_record.disease_records && medical_record.disease_records.length > 0 ? (
-          <table className="w-full">
-            <thead>
-              <tr className="border-b py-3 border-black">
-                <th className="">No</th>
-                <th className="">Penyakit</th>
-                <th className="">Aksi</th>
-              </tr>
-            </thead>
-            <tbody>
-              {medical_record.disease_records.map((record, index) => (
-                <tr className="border-b py-3 border-black" key={index}>
-                  <td className="py-3 text-center">{index + 1}</td>
-                  <td className="py-3 text-center">{record.disease!.name} {record.sub_disease ? " - " + record.sub_disease.name : ""}</td>
-                  <td className="py-3 text-center flex justify-center gap-3">
-                    <MuiInertiaLinkButton
-                      color="primary"
-                      href={route('disease.show', record.disease!.id)}
-                    >
-                      Lihat Penyakit
-                    </MuiInertiaLinkButton>
-                    {
-                      record.disease!.sub_diseases && record.disease!.sub_diseases.length > 0 ?
-                        (
-                          <>
-                            {record.sub_disease ? (
-                              <MuiInertiaLinkButton
-                                color="primary"
-                                href={route('sub-disease.show', record.sub_disease!.id)}
-                              >
-                                Lihat Sub Penyakit
-                              </MuiInertiaLinkButton>
-                            ) : (
-                              null
-                            )}
-                            <MuiInertiaLinkButton
-                              color="warning"
-                              href={route('medical-record.select-sub-disease', [
-                                medical_record,
-                                record.id,
-                              ])}
-                            >
-                              Pilih Sub Penyakit
-                            </MuiInertiaLinkButton>
-                            
-                          </>
-                        ) : null
-                    }
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        ) : (
-          <div className="flex flex-col gap-2">
-            <span className="font-semibold">Tidak ada Penyakit</span>
-          </div>
-        )}
+        <MaterialReactTable table={diseaseTable} />
       </div>
       <div className="m-8 mb-12 p-7 text-gray-800 shadow-2xl sm:rounded-3xl bg-white shadow-sky-400/50 flex flex-col gap-3">
         <div className=''>
@@ -275,6 +372,8 @@ export default function Show(props: Props) {
               <tr className="border-b py-3 border-black">
                 <th className="">No</th>
                 <th className="">Perawatan</th>
+                <th className="">Penyakit</th>
+                <th className="">Sub Penyakit</th>
               </tr>
             </thead>
             <tbody>
@@ -282,6 +381,20 @@ export default function Show(props: Props) {
                 <tr className="border-b py-3 border-black" key={index}>
                   <td className="py-3 text-center">{index + 1}</td>
                   <td className="py-3 text-center">{treatment.description}</td>
+                  <td className="py-3 mx-3">
+                    <ul className='list-disc'>
+                      {treatment.diseases?.map((disease, index) => (
+                        <li className='' key={index}>{disease.name}</li>
+                      ))}
+                    </ul>
+                  </td>
+                  <td className="py-3 mx-3">
+                    <ul className='list-disc'>
+                      {treatment.sub_diseases?.map((sub_disease, index) => (
+                        <li className='' key={index}>{sub_disease.disease.name} - {sub_disease.name}</li>
+                      ))}
+                    </ul>
+                  </td>
                 </tr>
               ))}
             </tbody>
