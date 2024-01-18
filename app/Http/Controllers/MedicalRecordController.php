@@ -7,6 +7,7 @@ use App\Models\DiseaseRecord;
 use App\Models\MedicalRecord;
 use App\Models\SubDiseaseRecord;
 use App\Models\Symptom;
+use App\Models\Treatment;
 use Illuminate\Http\Request;
 use PDF;
 
@@ -155,10 +156,7 @@ class MedicalRecordController extends Controller
         });
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(MedicalRecord $medicalRecord)
+    private function detailedData(MedicalRecord $medicalRecord): MedicalRecord
     {
         // Mengambil data penyakit yang terkait dengan rekam medis
         $medicalRecord->load(['diseaseRecords.disease.treatments', 'diseaseRecords.disease.subDiseases', 'diseaseRecords.subDiseaseRecords.subDisease.treatments']);
@@ -178,42 +176,104 @@ class MedicalRecordController extends Controller
             return $item->disease;
         })->unique('id')->values();
 
-        // Mengambil data gejala yang terkait dengan penyakit yang terkait dengan rekam medis
+        // Mengambil data gejala yang terkait dengan penyakit yang terkait dengan rekam medis di sort berdasarkan disease_id
 
-        $medicalRecord->symptoms = $diseases->map(function ($item) use ($diseases, $medicalRecord)
+        $medicalRecord->symptoms = Symptom::with([
+            'diseases',
+            'subDiseases.disease'
+            ])->whereIn(
+                'id',
+                $medicalRecord->symptoms_arr)
+                ->get();
+
+        // add disease_id to symptoms
+
+        $medicalRecord->symptoms = $medicalRecord->symptoms->map(function ($item) use ($diseases, $sub_diseases)
         {
-            return $item->symptoms->load(['diseases' => function ($query) use ($diseases)
-            {
-                $query->whereIn('disease_id', $diseases->pluck('id')->toArray());
-            }])->whereIn('id', $medicalRecord->symptoms_arr) ?? [];
-        })->flatten()->merge($sub_diseases->map(function ($item) use ($sub_diseases, $medicalRecord)
-        {
-            return $item->symptoms->load(['subDiseases' =>
+            $item->diseases = $item->diseases->unique('id')->values();
+
+            $item->subDiseases = $item->load(['subDiseases' =>
                 function ($query) use ($sub_diseases)
                 {
                     $query->whereIn('sub_disease_id', $sub_diseases->pluck('id'))->with('disease');
                 }
-            ])->whereIn('id', $medicalRecord->symptoms_arr) ?? [];
-        })->flatten())->unique('id')->values()->sortBy('id')->values();
+            ])->subDiseases->unique('id')->values();
+
+            if ($item->diseases->count() > 0)
+            {
+                $item->disease_id = min($item->diseases->pluck('id')->toArray());
+            }
+            else
+            {
+                $item->disease_id = min($item->subDiseases->pluck('disease_id')->toArray());
+            }
+
+            return $item;
+        })->sortBy('disease_id')->values()->unique('id');
 
         // Mengambil data rencana perawatan yang terkait dengan rekam medis
 
-        $medicalRecord->treatments = $diseases->map(function ($item) use ($diseases)
+        $dict_treatments_by_treatment_id = Treatment::with([
+            'diseases',
+            'subDiseases.disease'
+            ])->whereIn(
+                'id',
+                $diseases->map(function ($item)
+                {
+                    return $item->treatments->pluck('id')->toArray();
+                })->flatten()->merge($sub_diseases->map(function ($item)
+                {
+                    return $item->treatments->pluck('id')->toArray();
+                })->flatten())->unique())->get()->mapToGroups(function ($item, $key)
+                {
+                    return [$item->id => $item];
+                });
+
+        $medicalRecord->treatments = $dict_treatments_by_treatment_id->map(function ($item) use ($sub_diseases)
         {
-            return $item->treatments->load(['diseases' => function ($query) use ($diseases)
-            {
-                $query->whereIn('disease_id', $diseases->pluck('id')->toArray());
-            }]) ?? [];
-        })->flatten()->merge($sub_diseases->map(function ($item) use ($sub_diseases)
-        {
-            return $item->treatments->load(['subDiseases' =>
+            $item = $item->first();
+
+            $item->diseases = $item->diseases->unique('id')->values();
+
+            $item->subDiseases = $item->load(['subDiseases' =>
                 function ($query) use ($sub_diseases)
                 {
                     $query->whereIn('sub_disease_id', $sub_diseases->pluck('id'))->with('disease');
                 }
-            ]) ?? [];
-        })->flatten())->unique('id')->values();
+            ])->subDiseases->unique('id')->values();
 
+            if ($item->diseases->count() > 0)
+            {
+                $item->disease_id = min($item->diseases->pluck('id')->toArray());
+            }
+            else
+            {
+                $item->disease_id = min($item->subDiseases->pluck('disease_id')->toArray());
+            }
+
+            return $item;
+        })->sortBy('disease_id')->values()->unique('id');
+
+        // dd($medicalRecord->treatments)   ;
+
+        $medicalRecord->reasons = $diseases->map(function ($item) use ($diseases)
+        {
+            return $item->reasons->load(['diseases' => function ($query) use ($diseases)
+            {
+                $query->whereIn('disease_id', $diseases->pluck('id')->toArray());
+            }]);
+        })->flatten()->unique('id')->sortBy('disease_id')->values();
+
+        return $medicalRecord;
+
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(MedicalRecord $medicalRecord)
+    {
+        $medicalRecord = $this->detailedData($medicalRecord);
 
         return inertia('Admin/MedicalRecord/Show', [
             'medical_record' => $medicalRecord,
@@ -223,78 +283,7 @@ class MedicalRecordController extends Controller
     public function exportPDF(MedicalRecord $medicalRecord)
     {
         // Mengambil data penyakit yang terkait dengan rekam medis
-        $medicalRecord->load(['diseaseRecords.disease.treatments', 'diseaseRecords.disease.subDiseases', 'diseaseRecords.subDiseaseRecords']);
-
-        foreach ($medicalRecord->diseaseRecords as $diseaseRecord)
-        {
-            $diseaseRecord->subDiseaseRecords = $diseaseRecord->subDiseaseRecords->load('subDisease.treatments')->sortBy('sub_disease_id');
-        }
-
-        // Mengambil data gejala yang terkait dengan rekam medis
-
-        $sub_diseases = $medicalRecord->diseaseRecords->map(function ($item)
-        {
-            return $item->subDiseaseRecords->map(function ($item)
-            {
-                return $item->subDisease;
-            })->sortBy('id');
-        })->flatten()->unique('id')->values()->sortBy('id');
-
-        $diseases = $medicalRecord->diseaseRecords->map(function ($item)
-        {
-            return $item->disease;
-        })->unique('id')->values();
-
-        // Mengambil data gejala yang terkait dengan penyakit yang terkait dengan rekam medis
-
-        $medicalRecord->symptoms = $diseases->map(function ($item) use ($diseases, $medicalRecord)
-        {
-            return $item->symptoms->load(['diseases' => function ($query) use ($diseases)
-            {
-                $query->whereIn('disease_id', $diseases->pluck('id')->toArray());
-            }])->whereIn('id', $medicalRecord->symptoms_arr) ?? [];
-        })->flatten()->merge($sub_diseases->map(function ($item) use ($sub_diseases, $medicalRecord)
-        {
-            return $item->symptoms->load(['subDiseases' =>
-                function ($query) use ($sub_diseases)
-                {
-                    $query->whereIn('sub_disease_id', $sub_diseases->pluck('id'))->with('disease');
-                }
-            ])->whereIn('id', $medicalRecord->symptoms_arr) ?? [];
-        })->flatten())->unique('id')->values()->sortBy('id')->values();
-
-        // Mengambil data rencana perawatan yang terkait dengan rekam medis
-
-        $medicalRecord->treatments = $diseases->map(function ($item) use ($diseases)
-        {
-            return $item->treatments->load(['diseases' => function ($query) use ($diseases)
-            {
-                $query->whereIn('disease_id', $diseases->pluck('id')->toArray());
-            }]) ?? [];
-        })->flatten()->merge($sub_diseases->map(function ($item) use ($sub_diseases)
-        {
-            return $item->treatments->load(['subDiseases' =>
-                function ($query) use ($sub_diseases)
-                {
-                    $query->whereIn('sub_disease_id', $sub_diseases->pluck('id'))->with('disease');
-                }
-            ]) ?? [];
-        })->flatten())->unique('id')->values();
-
-        // sort medical treatment by lowest disease id
-
-        // $medicalRecord->treatments = $medicalRecord
-
-
-        $medicalRecord->reasons = $diseases->map(function ($item) use ($diseases)
-        {
-            return $item->reasons->load(['diseases' => function ($query) use ( $diseases)
-            {
-                $query->where('disease_id', $diseases->pluck('id')->toArray());
-            }]);
-        })->flatten()->unique('id')->values();
-
-        dd($medicalRecord->reasons->sortBy('id'));
+        $medicalRecord = $this->detailedData($medicalRecord);
 
         $pdf = PDF::loadView('exports.exportMedicalRecord', [
             'medicalRecord' => $medicalRecord,

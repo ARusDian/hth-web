@@ -26,7 +26,6 @@ class SymptomSeeder extends Seeder
     "Gigi dapat digoyangkan menggunakan lidah pasien",
     "Gigi mudah digoyangkan",
     "Gigi berjejal",
-    "Pengetahuan perkembangan gigi rendah"
     ];
 
     protected $disease = [
@@ -97,10 +96,6 @@ class SymptomSeeder extends Seeder
     [
     "disease_id" => 9,
     "symptom_id" => 18,
-    ],
-    [
-    "disease_id" => 9,
-    "symptom_id" => 19,
     ],
     ];
 
