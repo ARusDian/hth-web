@@ -281,11 +281,20 @@ class MedicalRecordController extends Controller
             ]) ?? [];
         })->flatten())->unique('id')->values();
 
+        // sort medical treatment by lowest disease id
 
-        $medicalRecord->reasons = $diseases->map(function ($item)
+        // $medicalRecord->treatments = $medicalRecord
+
+
+        $medicalRecord->reasons = $diseases->map(function ($item) use ($diseases)
         {
-            return $item->reasons;
+            return $item->reasons->load(['diseases' => function ($query) use ( $diseases)
+            {
+                $query->where('disease_id', $diseases->pluck('id')->toArray());
+            }]);
         })->flatten()->unique('id')->values();
+
+        dd($medicalRecord->reasons->sortBy('id'));
 
         $pdf = PDF::loadView('exports.exportMedicalRecord', [
             'medicalRecord' => $medicalRecord,

@@ -55,6 +55,6 @@ class Reason extends Model
 
     public function diseases()
     {
-        return $this->belongsToMany(Disease::class);
+        return $this->belongsToMany(Disease::class, 'disease_reasons', 'reason_id', 'disease_id');
     }
 }
