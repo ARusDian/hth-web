@@ -169,12 +169,13 @@ class MedicalRecordController extends Controller
             {
                 return $item->subDisease;
             })->sortBy('id');
-        })->flatten()->unique('id')->values()->sortBy('id');
+        })->flatten()->unique('id')->values()->sortBy('disease_id');
 
         $diseases = $medicalRecord->diseaseRecords->map(function ($item)
         {
             return $item->disease;
         })->unique('id')->values();
+        
 
         // Mengambil data gejala yang terkait dengan penyakit yang terkait dengan rekam medis di sort berdasarkan disease_id
 
@@ -251,6 +252,11 @@ class MedicalRecordController extends Controller
                 $item->disease_id = min($item->subDiseases->pluck('disease_id')->toArray());
             }
 
+            if ($item->subDiseases->count() > 0)
+            {
+                $item->disease_id = min([$item->disease_id, min($item->subDiseases->pluck('disease_id')->toArray())]);
+            }
+
             return $item;
         })->sortBy('disease_id')->values()->unique('id');
 
@@ -263,6 +269,10 @@ class MedicalRecordController extends Controller
                 $query->whereIn('disease_id', $diseases->pluck('id')->toArray());
             }]);
         })->flatten()->unique('id')->sortBy('disease_id')->values();
+
+        // sort disease records by disease_id
+
+        $medicalRecord->diseaseRecords = $medicalRecord->diseaseRecords->sortBy('disease_id')->values();
 
         return $medicalRecord;
 
