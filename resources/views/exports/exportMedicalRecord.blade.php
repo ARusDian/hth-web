@@ -102,19 +102,7 @@
             padding-left: 1.25rem;
         }
 
-        /* Border Tabel */
-
-        .d-tabel {
-            border-collapse: collapse;
-            width: 100%;
-            border: 1px solid;
-        }
-
-        .d-tabel th,
-        .d-tabel td {
-            padding: 4px;
-            border: 1px solid;
-        }
+        /* Tambahkan class-class Tailwind CSS atau gaya khusus lainnya sesuai kebutuhan */
     </style>
 </head>
 
@@ -266,38 +254,11 @@
             <div>
                 <p class="text-xl font-bold">Gejala yang dirasakan :</p>
                 <div>
-                    <table class="d-tabel">
-                        <tr>
-                            <th style="width:5%;">No</th>
-                            <th style="width:40%">Nama Gejala</th>
-                            <th>Penyakit</th>
-                            <th>Sub Penyakit</th>
-                        </tr>
+                    <ol>
                         @foreach ($medicalRecord->symptoms as $symptom)
-                            <tr>
-                                <td style="text-align: center;">
-                                    {{ $loop->iteration }}
-                                </td>
-                                <td>
-                                    {{ $symptom->description }}
-                                </td>
-                                <td>
-                                    <ul className='list-disc'>
-                                        @foreach ($symptom->diseases as $disease)
-                                            <li>{{ $disease->name }}</li>
-                                        @endforeach
-                                    </ul>
-                                </td>
-                                <td>
-                                    <ul className='list-disc'>
-                                        @foreach ($symptom->subDiseases as $subDisease)
-                                            <li>{{ $subDisease->name }}</li>
-                                        @endforeach
-                                    </ul>
-                                </td>
-                            </tr>
+                            <li>{{ $symptom->description }}</li>
                         @endforeach
-                    </table>
+                    </ol>
                 </div>
             </div>
             <div>
@@ -326,138 +287,60 @@
                                 @else
                                     @if (isset($record->disease->subDiseases) && count($record->disease->subDiseases) > 0)
                                         <ul>
-                                            <li>
-                                                <b>Belum Pilih Sub Penyakit</b>
-                                            </li>
+                                            <li>Belum Pilih Sub Penyakit</li>
                                         </ul>
                                     @endif
                                 @endif
                         @endforeach
                         </li>
+
+                    </ol>
+                </div>
+            </div>
+            <div>
+                <p class="text-xl font-bold">Masalah :</p>
+                <div>
+                    <ol>
+                        @foreach ($medicalRecord->diseaseRecords as $record)
+                            <li>{{ $record->disease->problem }} - <b>{{ $record->disease->name }}</b></li>
+                        @endforeach
                     </ol>
                 </div>
             </div>
             <div>
                 <p class="text-xl font-bold">Kemungkinan Penyebab Masalah :</p>
                 <div>
-                    <table class="d-tabel">
-                        <tr>
-                            <th style="width:5%;">No</th>
-                            <th style="width:50%">Kemungkinan Penyebab Masalah</th>
-                            <th>Penyakit</th>
-                        </tr>
+                    <ol>
                         @foreach ($medicalRecord->reasons as $reason)
-                            <tr>
-                                <td style="text-align: center;">
-                                    {{ $loop->iteration }}
-                                </td>
-                                <td>
-                                    {{ $reason->description }}
-                                </td>
-                                <td>
-                                    <ul className='list-disc'>
-                                        @foreach ($reason->diseases as $disease)
-                                            <li>{{ $disease->name }}</li>
-                                        @endforeach
-                                    </ul>
-                                </td>
-                            </tr>
+                            <li>{{ $reason->description }}</li>
                         @endforeach
-                    </table>
+                    </ol>
                 </div>
             </div>
             <div>
-                <p class="text-xl font-bold">Masalah :</p>
+                <p class="text-xl font-bold">Diagnosa :</p>
                 <div>
-                    <table class="d-tabel">
-                        <tr>
-                            <th style="width:5%;">No</th>
-                            <th style="width:50%">Masalah</th>
-                            <th>Penyakit</th>
-                        </tr>
+                    <ol>
                         @foreach ($medicalRecord->diseaseRecords as $record)
-                            <tr>
-                                <td style="text-align: center;">
-                                    {{ $loop->iteration }}
-                                </td>
-                                <td>
-                                    {{ $record->disease->problem }}
-                                </td>
-                                <td>
-                                    {{ $record->disease->name }}
-                                </td>
-                            </tr>
+                            <li>{{ $record->disease->diagnosis }} - <b>{{ $record->disease->name }}</b></li>
                         @endforeach
-                    </table>
-                    </table>
-                </div>
-                <div>
-                    <p class="text-xl font-bold">Diagnosa :</p>
-                    <div>
-                        <table class="d-tabel">
-                            <tr>
-                                <th style="width:5%;">No</th>
-                                <th style="width:50%">Diagnosa</th>
-                                <th>Penyakit</th>
-                            </tr>
-
-                            @foreach ($medicalRecord->diseaseRecords as $record)
-                                <tr>
-                                    <td style="text-align: center;">
-                                        {{ $loop->iteration }}
-                                    </td>
-                                    <td>
-                                        {{ $record->disease->diagnosis }}
-                                    </td>
-                                    <td>
-                                        {{ $record->disease->name }}
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </table>
-                    </div>
-                </div>
-                <div>
-                    <p class="text-xl font-bold">Rencana Perawatan :</p>
-                    <div>
-                        <table class="d-tabel">
-                            <tr>
-                                <th style="width:5%;">No</th>
-                                <th style="width:40%">Rencana Perawatan :</th>
-                                <th>Penyakit</th>
-                                <th>Sub Penyakit</th>
-                            </tr>
-                            @foreach ($medicalRecord->treatments as $treatment)
-                                <tr>
-                                    <td style="text-align: center;">
-                                        {{ $loop->iteration }}
-                                    </td>
-                                    <td>
-                                        {{ $treatment->description }}
-                                    </td>
-                                    <td>
-                                        <ul className='list-disc'>
-                                            @foreach ($treatment->diseases as $disease)
-                                                <li>{{ $disease->name }}</li>
-                                            @endforeach
-                                        </ul>
-                                    </td>
-                                    <td>
-                                        <ul className='list-disc'>
-                                            @foreach ($treatment->subDiseases as $subDisease)
-                                                <li>{{ $subDisease->name }} - {{$subDisease->disease->name}}</li>
-                                            @endforeach
-                                        </ul>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </table>
-                    </div>
-                    <p class='text-sm font-semibold'>
-                        * Rencana perawatan semakin lengkap jika semua penyakit telah dipilih sub penyakitnya.
-                    </p>
+                    </ol>
                 </div>
             </div>
+            <div>
+                <p class="text-xl font-bold">Rencana Perawatan :</p>
+                <div>
+                    <ol>
+                        @foreach ($medicalRecord->treatments as $treatment)
+                            <li>{{ $treatment->description }} </li>
+                        @endforeach
+                    </ol>
+                </div>
+                <p class='text-sm font-semibold'>
+                    * Rencana perawatan semakin lengkap jika semua penyakit telah dipilih sub penyakitnya.
+                </p>
+            </div>
+        </div>
     </header>
 </body>
 
