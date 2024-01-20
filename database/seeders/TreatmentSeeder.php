@@ -12,7 +12,7 @@ class TreatmentSeeder extends Seeder
     "Melakukan penambalan KMD Kelas 1",
     "Melakukan penambalan KMD Kelas 5",
     "Rujuk Ke Dokter Gigi",
-    "Melakukan Perawatan Saluran Akar",
+    "Melakukan Perawatan Saluran Akar (Rujuk kedokter gigi)",
     "Melakukan pencabutan gigi",
     "Melakukan scaling",
     "Melakukan pelapisan pit dan fissure dengan bahan Fuji VII",
@@ -23,15 +23,7 @@ class TreatmentSeeder extends Seeder
     protected $disease = [
     [
     "disease_id" => 3,
-    "treatment_id" => 4,
-    ],
-    [
-    "disease_id" => 3,
     "treatment_id" => 5,
-    ],
-    [
-    "disease_id" => 4,
-    "treatment_id" => 4,
     ],
     [
     "disease_id" => 4,
