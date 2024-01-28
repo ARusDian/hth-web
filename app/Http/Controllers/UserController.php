@@ -83,16 +83,6 @@ class UserController extends Controller
                 $user->updateProfilePhoto($request['photo']['file']);
             }
 
-            if (isset($validated['learning_categories']))
-            {
-                $user->learningCategories()->attach(
-                    array_map(function ($learning_category)
-                    {
-                        return $learning_category['id'];
-                    }, $validated['learning_categories'] ?? []),
-                );
-            }
-
             foreach ($validated['roles'] as $role)
             {
                 $user->assignRole($role['id']);
@@ -143,7 +133,6 @@ class UserController extends Controller
         $user = User::withTrashed()
             ->with([
                 'roles',
-                'learningCategories.subLearningPacket.learningPacket',
             ])
             ->find($id);
         $roles = Role::all();
@@ -252,9 +241,6 @@ class UserController extends Controller
         {
             $user = User::withTrashed()
                 ->with([
-                    'userLearningPackets',
-                    'exams.answers',
-                    'instructorLearningCategories',
                 ])
                 ->findOrFail($id);
 
