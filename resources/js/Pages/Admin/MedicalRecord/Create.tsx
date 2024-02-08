@@ -43,6 +43,73 @@ export default function Create(props: Props) {
       food_allergy: null,
       drug_allergy: null,
       symptoms_arr: [],
+      teeth_condition_vitalities: [],
+      odontogram: {},
+      periodontal_tissues: [],
+      is_symetric_face: false,
+      is_teeth_shape_normal: false,
+      is_teeth_amount_normal: false,
+      is_teeth_color_normal: false,
+      is_teeth_position_normal: false,
+      is_teeth_size_normal: false,
+      occlusion: 'Normal Bite',
+      is_teeth_shape_anomaly: false,
+      is_teeth_color_anomaly: false,
+      is_teeth_position_anomaly: false,
+      is_teeth_size_anomaly: false,
+      is_teeth_structure_anomaly: false,
+      spleen_gland: {
+        right: {
+          is_palpable: false,
+          is_hard: false,
+          is_painful: false,
+        },
+        left: {
+          is_palpable: false,
+          is_hard: false,
+          is_painful: false,
+        },
+      },
+      hard_tissue_abnormalities: {
+        permanent_teeth: {
+          d: "0",
+          m: "0",
+          f: "0",
+          dmft: "0",
+        },
+        milk_teeth: {
+          d: "0",
+          e: "0",
+          f: "0",
+          deft: "0",
+        },
+      },
+      mucose_tongue: {
+        is_color_change: false,
+        is_inflammation: false,
+        is_ulcer: false,
+      },
+      mucose_cheek: {
+        is_color_change: false,
+        is_inflammation: false,
+        is_ulcer: false,
+      },
+      mucose_palatum: {
+        is_color_change: false,
+        is_inflammation: false,
+        is_ulcer: false,
+      },
+      mucose_gingiva: {
+        is_color_change: false,
+        is_inflammation: false,
+        is_ulcer: false,
+      },
+      mucose_lips: {
+        is_color_change: false,
+        is_inflammation: false,
+        is_ulcer: false,
+      },
+
     },
   });
 

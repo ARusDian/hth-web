@@ -44,11 +44,49 @@ class MedicalRecord extends Model
     'food_allergy',
     'drug_allergy',
     'symptoms_arr',
+    'is_symetric_face',
+    'spleen_gland',
+    'odontogram',
+    'hard_tissue_abnormalities',
+    'is_teeth_shape_normal',
+    'is_teeth_amount_normal',
+    'is_teeth_color_normal',
+    'is_teeth_position_normal',
+    'is_teeth_size_normal',
+    'occlusion',
+    'is_teeth_shape_anomaly',
+    'is_teeth_color_anomaly',
+    'is_teeth_position_anomaly',
+    'is_teeth_size_anomaly',
+    'is_teeth_structure_anomaly',
+    'mucose_tongue',
+    'mucose_cheek',
+    'mucose_palatum',
+    'mucose_gingiva',
+    'mucose_lips',
     ];
 
     protected $casts = [
-        "symptoms_arr" => "array"
+        "symptoms_arr" => "array",
+        "hard_tissue_abnormalities" => "array",
+        "spleen_gland" => "array",
+        "odontogram" => "array",
+        "mucose_tongue" => "array",
+        "mucose_cheek" => "array",
+        "mucose_palatum" => "array",
+        "mucose_gingiva" => "array",
+        "mucose_lips" => "array",
     ];
+
+    public function teethConditionVitalities()
+    {
+        return $this->hasMany(TeethConditionVitality::class);
+    }
+
+    public function periodontalTissues()
+    {
+        return $this->hasMany(PeriodontalTissue::class);
+    }
 
     public function diseaseRecords()
     {

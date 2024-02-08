@@ -72,6 +72,28 @@ class MedicalRecordController extends Controller
         'food_allergy' => 'nullable|string',
         'drug_allergy' => 'nullable|string',
         'symptoms_arr' => 'array',
+        'odontogram' => 'array',
+        'hard_tissue_abnormalities' => 'array',
+        'periodontal_tissues' => 'array',
+        'is_symetric_face' => 'required|boolean',
+        'spleen_gland' => 'array',
+        'is_teeth_shape_normal' => 'required|boolean',
+        'is_teeth_amount_normal' => 'required|boolean',
+        'is_teeth_color_normal' => 'required|boolean',
+        'is_teeth_size_normal' => 'required|boolean',
+        'is_teeth_position_normal' => 'required|boolean',
+        'occlusion' => 'required|in:Normal Bite,Cross Bite,Steep Bite',
+        'is_teeth_shape_anomaly' => 'required|boolean',
+        'is_teeth_color_anomaly' => 'required|boolean',
+        'is_teeth_size_anomaly' => 'required|boolean',
+        'is_teeth_position_anomaly' => 'required|boolean',
+        'is_teeth_structure_anomaly' => 'required|boolean',
+        'mucose_tongue' => 'array',
+        'mucose_cheek' => 'array',
+        'mucose_palatum' => 'array',
+        'mucose_gingiva' => 'array',
+        'mucose_lips' => 'array',
+
         ]);
 
         // Mengambil data gejala yang dipilih
@@ -151,7 +173,40 @@ class MedicalRecordController extends Controller
                 }
             }
 
+            foreach ($request->get('teeth_condition_vitalities') as $value)
+            {
+                $medical_record->teethConditionVitalities()->create([
+                    'tooth_number' => $value['tooth_number'],
+                    'inspection' => $value['inspection'],
+                    'thermis' => $value['thermis'],
+                    'sondasi' => $value['sondasi'],
+                    'percussion' => $value['percussion'],
+                    'druk' => $value['druk'],
+                    'mobility' => $value['mobility'],
+                    'problem' => $value['problem'],
+                ]);
+            }
 
+            foreach ($request->get('periodontal_tissues') as $value)
+            {
+                $medical_record->periodontalTissues()->create([
+                    'tooth_number' => $value['tooth_number'],
+                    'location' => $value['location'],
+                    'pocket_false' => $value['pocket_false'],
+                    'pocket_true' => $value['pocket_true'],
+                    'pocket_depth' => $value['pocket_depth'],
+                    'inflammation_rubor' => $value['inflammation_rubor'],
+                    'inflammation_tumor' => $value['inflammation_tumor'],
+                    'inflammation_kolor' => $value['inflammation_kolor'],
+                    'inflammation_dolor' => $value['inflammation_dolor'],
+                    'inflammation_functio_laesa' => $value['inflammation_functio_laesa'],
+                    'attachment_normal' => $value['attachment_normal'],
+                    'attachment_decline' => $value['attachment_decline'],
+                    'PUS' => $value['PUS'],
+                    'other' => $value['other'],
+                    'problem' => $value['problem'],
+                ]);
+            }
             return redirect()->route('medical-record.index')->banner('Data Rekam Medis berhasil ditambahkan.');
         });
     }
@@ -159,7 +214,7 @@ class MedicalRecordController extends Controller
     private function detailedData(MedicalRecord $medicalRecord): MedicalRecord
     {
         // Mengambil data penyakit yang terkait dengan rekam medis
-        $medicalRecord->load(['diseaseRecords.disease.treatments', 'diseaseRecords.disease.subDiseases', 'diseaseRecords.subDiseaseRecords.subDisease.treatments']);
+        $medicalRecord->load(['diseaseRecords.disease.treatments', 'diseaseRecords.disease.subDiseases', 'diseaseRecords.subDiseaseRecords.subDisease.treatments', 'periodontalTissues', 'teethConditionVitalities']);
 
         // Mengambil data gejala yang terkait dengan rekam medis
 
@@ -175,7 +230,7 @@ class MedicalRecordController extends Controller
         {
             return $item->disease;
         })->unique('id')->values();
-        
+
 
         // Mengambil data gejala yang terkait dengan penyakit yang terkait dengan rekam medis di sort berdasarkan disease_id
 
@@ -295,11 +350,70 @@ class MedicalRecordController extends Controller
         // Mengambil data penyakit yang terkait dengan rekam medis
         $medicalRecord = $this->detailedData($medicalRecord);
 
-        $pdf = PDF::loadView('exports.exportMedicalRecord', [
-            'medicalRecord' => $medicalRecord,
-        ]);
+        $REGION = [
+        // Top
+        [
+        // Milk
+        [
+            // Left
+            [
+                55, 54, 53, 52, 51
+            ],
+            // Right
+            [
+                61, 62, 63, 64, 65
+            ]
+        ],
+        // Adult
+        [
+            // Left
+            [
+                18, 17, 16, 15, 14, 13, 12, 11
+            ],
+            // Right
+            [
+                21, 22, 23, 24, 25, 26, 27, 28
+            ]
+        ]
+        ],
+        // Bottom
+        [
+        // Adult
+        [
+            // Left
+            [
+                48, 47, 46, 45, 44, 43, 42, 41
+            ],
+            // Right
+            [
+                31, 32, 33, 34, 35, 36, 37, 38
+            ]
+        ],
+        // Milk
+        [
+            // Left
+            [
+                85, 84, 83, 82, 81
+            ],
+            // Right
+            [
+                71, 72, 73, 74, 75
+            ]
+        ],
+        ],
+        ];
 
-        return $pdf->download('medical-record.pdf');
+        // $pdf = PDF::loadView('exports.exportMedicalRecord', [
+        //     'medicalRecord' => $medicalRecord,
+        //     'REGION' => $REGION,
+        // ]);
+
+        // return $pdf->download('medical-record.pdf');
+
+        return view('exports.exportMedicalRecord', [
+            'medicalRecord' => $medicalRecord,
+            'REGION' => $REGION,
+        ]);
     }
 
     /**
@@ -310,6 +424,8 @@ class MedicalRecordController extends Controller
         //
 
         $symptoms = Symptom::all();
+
+        $medicalRecord->load(['periodontalTissues', 'teethConditionVitalities']);
 
         $medicalRecord->symptoms = Symptom::with('diseases')->whereIn('id', $medicalRecord->symptoms_arr)->get();
 
@@ -353,6 +469,28 @@ class MedicalRecordController extends Controller
         'food_allergy' => 'nullable|string',
         'drug_allergy' => 'nullable|string',
         'symptoms_arr' => 'array',
+        'odontogram' => 'array',
+        'hard_tissue_abnormalities' => 'array',
+        'periodontal_tissues' => 'array',
+        'is_symetric_face' => 'required|boolean',
+        'spleen_gland' => 'array',
+        'is_teeth_shape_normal' => 'required|boolean',
+        'is_teeth_amount_normal' => 'required|boolean',
+        'is_teeth_color_normal' => 'required|boolean',
+        'is_teeth_size_normal' => 'required|boolean',
+        'is_teeth_position_normal' => 'required|boolean',
+        'occlusion' => 'required|in:Normal Bite,Cross Bite,Steep Bite',
+        'is_teeth_shape_anomaly' => 'required|boolean',
+        'is_teeth_color_anomaly' => 'required|boolean',
+        'is_teeth_size_anomaly' => 'required|boolean',
+        'is_teeth_position_anomaly' => 'required|boolean',
+        'is_teeth_structure_anomaly' => 'required|boolean',
+        'mucose_tongue' => 'array',
+        'mucose_cheek' => 'array',
+        'mucose_palatum' => 'array',
+        'mucose_gingiva' => 'array',
+        'mucose_lips' => 'array',
+
         ]);
 
         $symptoms = Symptom::with('diseases')->whereIn('id', $request->symptoms_arr)->get();
@@ -362,21 +500,67 @@ class MedicalRecordController extends Controller
             return $item->diseases;
         })->flatten()->unique();
 
-        $medicalRecord->update($request->all());
-
-        $medicalRecord->diseaseRecords()->whereNotIn('disease_id', $diseases->pluck('id'))->delete();
-
-        $diseases->each(function ($item) use ($medicalRecord)
+        return \DB::transaction(function () use ($medicalRecord, $request, $diseases)
         {
-            $medicalRecord->diseaseRecords()->updateOrCreate([
-                'disease_id' => $item->id,
-            ], [
-                'disease_id' => $item->id,
-            ]);
+            $medicalRecord->update($request->all());
+
+            $medicalRecord->diseaseRecords()->whereNotIn('disease_id', $diseases->pluck('id'))->delete();
+
+            $diseases->each(function ($item) use ($medicalRecord)
+            {
+                $medicalRecord->diseaseRecords()->updateOrCreate([
+                    'disease_id' => $item->id,
+                ], [
+                    'disease_id' => $item->id,
+                ]);
+            });
+
+            // update teeth condition vitalities without delete
+
+            foreach ($request->get('teeth_condition_vitalities') as $value)
+            {
+                $medicalRecord->teethConditionVitalities()->updateOrCreate([
+                    'tooth_number' => $value['tooth_number'],
+                ], [
+                    'tooth_number' => $value['tooth_number'],
+                    'inspection' => $value['inspection'],
+                    'thermis' => $value['thermis'],
+                    'sondasi' => $value['sondasi'],
+                    'percussion' => $value['percussion'],
+                    'druk' => $value['druk'],
+                    'mobility' => $value['mobility'],
+                    'problem' => $value['problem'],
+                ]);
+            }
+
+            // update periodontal tissues without delete
+
+            foreach ($request->get('periodontal_tissues') as $value)
+            {
+                $medicalRecord->periodontalTissues()->updateOrCreate([
+                    'tooth_number' => $value['tooth_number'],
+                ], [
+                    'tooth_number' => $value['tooth_number'],
+                    'location' => $value['location'],
+                    'pocket_false' => $value['pocket_false'],
+                    'pocket_true' => $value['pocket_true'],
+                    'pocket_depth' => $value['pocket_depth'],
+                    'inflammation_rubor' => $value['inflammation_rubor'],
+                    'inflammation_tumor' => $value['inflammation_tumor'],
+                    'inflammation_kolor' => $value['inflammation_kolor'],
+                    'inflammation_dolor' => $value['inflammation_dolor'],
+                    'inflammation_functio_laesa' => $value['inflammation_functio_laesa'],
+                    'attachment_normal' => $value['attachment_normal'],
+                    'attachment_decline' => $value['attachment_decline'],
+                    'PUS' => $value['PUS'],
+                    'other' => $value['other'],
+                    'problem' => $value['problem'],
+                ]);
+            }
+
+
+            return redirect()->route('medical-record.show', $medicalRecord)->banner('Data Rekam Medis berhasil diubah.');
         });
-
-
-        return redirect()->route('medical-record.show', $medicalRecord)->banner('Data Rekam Medis berhasil diubah.');
     }
 
     /**

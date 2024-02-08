@@ -1,4 +1,4 @@
-import { DiseaseModel } from "./Disease";
+ import { DiseaseModel } from "./Disease";
 import { SubDiseaseModel } from "./SubDisease";
 import { SymptomModel } from "./Symptom";
 import { TreatmentModel } from "./Treatment";
@@ -30,17 +30,111 @@ export interface BaseMedicalRecordModel {
     another_disease?: string | null;
     food_allergy?: string | null;
     drug_allergy?: string | null;
+    is_symetric_face: boolean;
+
+    // teeth abnormality
+    is_teeth_shape_normal: boolean;
+    is_teeth_amount_normal: boolean;
+    is_teeth_color_normal: boolean;
+    is_teeth_position_normal: boolean;
+    is_teeth_size_normal: boolean;
+
+    // teeth anomaly
+    occlusion: "Normal Bite" | "Cross Bite" | "Steep Bite"
+    is_teeth_shape_anomaly: boolean;
+    is_teeth_color_anomaly: boolean;
+    is_teeth_position_anomaly: boolean;
+    is_teeth_size_anomaly: boolean;
+    is_teeth_structure_anomaly: boolean;
+
+    spleen_gland: {
+        right: SpleenGland;
+        left: SpleenGland;
+    }
+
+    odontogram: { [key: string]: string | null };
+    hard_tissue_abnormalities: HardTissueAbnormalities;
+    teeth_condition_vitalities: TeethConditionVitality[];
+    periodontal_tissues: PeriodontalTissue[];
+    mucose_tongue: Mucose;
+    mucose_cheek: Mucose;
+    mucose_palatum: Mucose;
+    mucose_gingiva: Mucose;
+    mucose_lips: Mucose;
+
     symptoms_arr: Number[] | null | string; // Assuming symptom is stored as a JSON object
     created_at: string; // Assuming created_at is stored as a string in the format 'YYYY-MM-DD HH:MM:SS'
     updated_at: string; // Assuming updated_at is stored as a string in the format 'YYYY-MM-DD HH:MM:SS'
     disease_records?: Array<DiseaseRecordModel>;
     symptoms?: Array<SymptomModel>;
     treatments?: Array<TreatmentModel>;
+};
+
+export interface PeriodontalTissue {
+    id?: number;
+    tooth_number: string;
+    location: string;
+    pocket_true: string;
+    pocket_false: string;
+    pocket_depth: string;
+
+    inflammation_rubor: string;
+    inflammation_tumor: string;
+    inflammation_kolor: string;
+    inflammation_dolor: string;
+    inflammation_functio_laesa: string;
+
+    attachment_normal: string;
+    attachment_decline: string;
+
+    PUS: string;
+    other: string;
+    problem: string;
+};
+
+export interface Mucose {
+    is_color_change: boolean;
+    is_inflammation: boolean; 
+    is_ulcer: boolean;
+}
+
+export interface TeethConditionVitality {
+    id? : number;
+    tooth_number: string;
+    inspection: string;
+    thermis: string;
+    sondasi: string;
+    percussion: string;
+    druk: string;
+    mobility: string;
+    problem: string;
+};
+
+export interface HardTissueAbnormalities {
+    permanent_teeth: {
+        d: string;
+        m: string;
+        f: string;
+        dmft: string;
+    },
+    milk_teeth: {
+        d: string;
+        e: string;
+        f: string;
+        deft: string;
+    }
+};
+
+
+export interface SpleenGland {
+    is_palpable: boolean;
+    is_hard: boolean;
+    is_painful: boolean;
 }
 
 export interface MedicalRecordModel extends BaseMedicalRecordModel {
     id: number;
-}
+};
 
 export interface DiseaseRecordModel {
     id: number;
@@ -53,7 +147,7 @@ export interface DiseaseRecordModel {
     region?: number[];
     created_at: string;
     updated_at: string;
-}
+};
 
 export interface SubDiseaseRecordModel {
     id: number;
@@ -63,4 +157,4 @@ export interface SubDiseaseRecordModel {
     region?: number[];
     created_at: string;
     updated_at: string;
-}
+};

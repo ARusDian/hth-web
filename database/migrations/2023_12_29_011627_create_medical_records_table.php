@@ -39,6 +39,35 @@ return new class extends Migration
             $table->text("food_allergy")->nullable();
             $table->text("drug_allergy")->nullable();
             $table->json('symptoms_arr');
+            $table->boolean("is_symetric_face");
+
+            $table->json('spleen_gland');
+
+            $table->json('odontogram');
+            $table->json('hard_tissue_abnormalities');
+
+            // Teeth Abnormalities
+            $table->boolean("is_teeth_shape_normal");
+            $table->boolean("is_teeth_amount_normal");
+            $table->boolean("is_teeth_color_normal");
+            $table->boolean("is_teeth_position_normal");
+            $table->boolean("is_teeth_size_normal");
+
+            // Teeth Anomalies
+            $table->enum("occlusion",["Normal Bite","Cross Bite","Steep Bite"]);
+            $table->boolean("is_teeth_shape_anomaly");
+            $table->boolean("is_teeth_color_anomaly");
+            $table->boolean("is_teeth_position_anomaly");
+            $table->boolean("is_teeth_size_anomaly");
+            $table->boolean("is_teeth_structure_anomaly");
+
+            // Mouth Mucosa
+            $table->json('mucose_tongue');
+            $table->json('mucose_cheek');
+            $table->json('mucose_palatum');
+            $table->json('mucose_gingiva');
+            $table->json('mucose_lips');
+
             $table->timestamps();
         });
     }
