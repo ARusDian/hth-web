@@ -137,7 +137,7 @@ class UserController extends Controller
             ->find($id);
         $roles = Role::all();
 
-        return Inertia::render('Admin/User/Edit', [
+        return Inertia::render('Admin/Authorization/User/Edit', [
             'user_data' => $user,
             'roles' => $roles,
         ]);
