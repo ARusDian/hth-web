@@ -58,7 +58,7 @@ export default function Index(props: Props) {
         columnFilters: JSON.stringify(columnFilters),
         // globalFilter: globalFilter,
       },
-      only: ['medicalRecords'],
+      only: ['medical_records'],
       onFinish: () => {
         setIsLoading(false);
       },
