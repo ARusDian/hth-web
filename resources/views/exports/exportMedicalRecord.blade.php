@@ -751,7 +751,7 @@
                                 @endforeach
                             @else
                                 <tr>
-                                    <td colspan="13" class="border px-4 py-2 text-center">Tidak ada
+                                    <td colspan="14" class="border px-4 py-2 text-center">Tidak ada
                                         data</td>
                                 </tr>
                             @endif
@@ -791,7 +791,7 @@
                                                     {{ $subDiseaseRecord->region
                                                         ? ' : ' . join(', ', $subDiseaseRecord->region)
                                                         : '
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            : Belum Pilih Region' }}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                : Belum Pilih Region' }}
                                                 </b>
                                             </li>
                                         @endforeach
@@ -977,21 +977,21 @@
                                 </td>
                                 <td class="border border-black">
                                     <ul>
-                                        @foreach($record->disease->treatmentGoals as $item)
+                                        @foreach ($record->disease->treatmentGoals as $item)
                                             <li>{{ $item->name }}</li>
                                         @endforeach
                                     </ul>
                                 </td>
                                 <td class="border border-black">
                                     <ul>
-                                        @foreach($record->disease->successIndicators as $item)
+                                        @foreach ($record->disease->successIndicators as $item)
                                             <li>{{ $item->name }}</li>
                                         @endforeach
                                     </ul>
                                 </td>
                                 <td class="border border-black">
                                     <ul>
-                                        @foreach($record->disease->evaluationMethods as $item)
+                                        @foreach ($record->disease->evaluationMethods as $item)
                                             <li>{{ $item->name }}</li>
                                         @endforeach
                                     </ul>

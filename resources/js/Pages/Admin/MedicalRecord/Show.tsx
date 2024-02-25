@@ -67,7 +67,7 @@ export default function Show(props: Props) {
 
   console.log(medical_record);
 
-  const [tabIndex, setValue] = React.useState(1);
+  const [tabIndex, setValue] = React.useState(0);
 
   const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
