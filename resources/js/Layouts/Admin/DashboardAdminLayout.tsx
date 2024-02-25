@@ -30,6 +30,9 @@ import CoronavirusIcon from '@mui/icons-material/Coronavirus';
 import StorageIcon from '@mui/icons-material/Storage';
 import TableRowsIcon from '@mui/icons-material/TableRows';
 import BackupIcon from '@mui/icons-material/Backup';
+import FlagIcon from '@mui/icons-material/Flag';
+import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
+import ChecklistRtlIcon from '@mui/icons-material/ChecklistRtl';
 import { asset } from '@/Models/Helper';
 import { User } from '@/types';
 
@@ -233,12 +236,45 @@ export default function DashboardAdminLayout({
         <li>
           <ResponsiveNavLink
             href={route('treatment.index')}
-            active={route().current()?.startsWith('treatment')}
+            active={route().current()?.startsWith('treatment.')}
           >
             <span className={'mr-4'}>
               <MedicationLiquidIcon fontSize="large" />
             </span>
             Perawatan
+          </ResponsiveNavLink>
+        </li>
+        <li>
+          <ResponsiveNavLink
+            href={route('treatment-goal.index')}
+            active={route().current()?.startsWith('treatment-goal')}
+          >
+            <span className={'mr-4'}>
+              <FlagIcon fontSize="large" />
+            </span>
+            Tujuan Perawatan
+          </ResponsiveNavLink>
+        </li>
+        <li>
+          <ResponsiveNavLink
+            href={route('success-indicator.index')}
+            active={route().current()?.startsWith('success-indicator')}
+          >
+            <span className={'mr-4'}>
+              <CheckCircleRoundedIcon fontSize="large" />
+            </span>
+            Indikator Keberhasilan
+          </ResponsiveNavLink>
+        </li>
+        <li>
+          <ResponsiveNavLink
+            href={route('evaluation-method.index')}
+            active={route().current()?.startsWith('evaluation-method')}
+          >
+            <span className={'mr-4'}>
+              <ChecklistRtlIcon fontSize="large" />
+            </span>
+            Metode Evaluasi
           </ResponsiveNavLink>
         </li>
         {user.roles.some(role => role.name === 'super-admin') && (
