@@ -51,6 +51,6 @@ class SuccessIndicator extends Model
 
     public function diseases()
     {
-        return $this->belongsToMany(Disease::class, 'success_indicator_diseases');
+        return $this->belongsToMany(Disease::class, 'disease_success_indicators');
     }
 }

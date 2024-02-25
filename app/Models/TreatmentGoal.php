@@ -51,6 +51,6 @@ class TreatmentGoal extends Model
 
     public function diseases()
     {
-        return $this->belongsToMany(Disease::class, 'treatment_goal_diseases');
+        return $this->belongsToMany(Disease::class, 'disease_treatment_goals');
     }
 }

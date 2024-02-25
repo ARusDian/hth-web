@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('treatment_goal_diseases', function (Blueprint $table) {
+        Schema::create('disease_treatment_goals', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('treatment_goal_id')->constrained();
             $table->foreignId('disease_id')->constrained();
+            $table->foreignId('treatment_goal_id')->constrained();
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('treatment_goal_diseases');
+        Schema::dropIfExists('disease_treatment_goals');
     }
 };

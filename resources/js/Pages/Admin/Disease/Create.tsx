@@ -11,11 +11,17 @@ import { BaseDiseaseModel } from '@/Models/Disease';
 import { ReasonModel } from '@/Models/Reason';
 import { SymptomModel } from '@/Models/Symptom';
 import { TreatmentModel } from '@/Models/Treatment';
+import { TreatmentGoalModel } from '@/Models/TreatmentGoal';
+import { SuccessIndicatorModel } from '@/Models/SuccessIndicator';
+import { EvaluationMethodModel } from '@/Models/EvaluationMethod';
 
 interface Props {
   reasons: ReasonModel[];
   symptoms: SymptomModel[];
-  treatments : TreatmentModel[];
+  treatments: TreatmentModel[];
+  treatment_goals: TreatmentGoalModel[];
+  success_indicators: SuccessIndicatorModel[];
+  evaluation_methods: EvaluationMethodModel[];
 }
 
 export default function Create(props: Props) {
@@ -27,6 +33,9 @@ export default function Create(props: Props) {
       treatments: [],
       symptoms: [],
       reasons: [],
+      treatment_goals: [],
+      success_indicators: [],
+      evaluation_methods: [],
     },
   });
 
@@ -49,6 +58,9 @@ export default function Create(props: Props) {
           reasons={props.reasons}
           symptoms={props.symptoms}
           treatments={props.treatments}
+          treatment_goals={props.treatment_goals}
+          success_indicators={props.success_indicators}
+          evaluation_methods={props.evaluation_methods}
           className="my-5 mx-2"
         />
         <div className="flex justify-end">

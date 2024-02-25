@@ -185,6 +185,87 @@ export default function Show(props: Props) {
           </div>
         )}
       </div>
+      <div className="m-8 mb-12 p-7 text-gray-800 shadow-2xl sm:rounded-3xl bg-white shadow-sky-400/50 flex flex-col gap-3">
+        <div className=''>
+          <h2 className="text-2xl font-semibold">Tujuan Perawatan</h2>
+        </div>
+        {disease.treatment_goals && disease.treatment_goals.length > 0 ? (
+          <table className="w-full">
+            <thead>
+              <tr className="border-b py-3 border-black">
+                <th className="">No</th>
+                <th className="">Tujuan Perawatan</th>
+              </tr>
+            </thead>
+            <tbody>
+              {disease.treatment_goals.map((treatment, index) => (
+                <tr className="border-b py-3 border-black" key={index}>
+                  <td className="py-3 text-center">{index + 1}</td>
+                  <td className="py-3 text-center">{treatment.name}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <div className="flex flex-col gap-2">
+              <span className="font-semibold">Tidak ada Tujuan Perawatan</span>
+          </div>
+        )}
+      </div>
+      <div className="m-8 mb-12 p-7 text-gray-800 shadow-2xl sm:rounded-3xl bg-white shadow-sky-400/50 flex flex-col gap-3">
+        <div className=''>
+          <h2 className="text-2xl font-semibold">Indikator Keberhasilan</h2>
+        </div>
+        {disease.success_indicators && disease.success_indicators.length > 0 ? (
+          <table className="w-full">
+            <thead>
+              <tr className="border-b py-3 border-black">
+                <th className="">No</th>
+                <th className="">Indikator Keberhasilan</th>
+              </tr>
+            </thead>
+            <tbody>
+              {disease.success_indicators.map((item, index) => (
+                <tr className="border-b py-3 border-black" key={index}>
+                  <td className="py-3 text-center">{index + 1}</td>
+                  <td className="py-3 text-center">{item.name}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <div className="flex flex-col gap-2">
+              <span className="font-semibold">Tidak ada Indikator Keberhasilan</span>
+          </div>
+        )}
+      </div>
+      <div className="m-8 mb-12 p-7 text-gray-800 shadow-2xl sm:rounded-3xl bg-white shadow-sky-400/50 flex flex-col gap-3">
+        <div className=''>
+          <h2 className="text-2xl font-semibold">Metode Evaluasi</h2>
+        </div>
+        {disease.evaluation_methods && disease.evaluation_methods.length > 0 ? (
+          <table className="w-full">
+            <thead>
+              <tr className="border-b py-3 border-black">
+                <th className="">No</th>
+                <th className="">Metode Evaluasi</th>
+              </tr>
+            </thead>
+            <tbody>
+              {disease.evaluation_methods.map((item, index) => (
+                <tr className="border-b py-3 border-black" key={index}>
+                  <td className="py-3 text-center">{index + 1}</td>
+                  <td className="py-3 text-center">{item.name}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <div className="flex flex-col gap-2">
+              <span className="font-semibold">Tidak ada Metode Evaluasi</span>
+          </div>
+        )}
+      </div>
 
     </AdminShowLayout>
   );

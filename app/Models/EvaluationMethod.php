@@ -51,6 +51,6 @@ class EvaluationMethod extends Model
 
     public function diseases()
     {
-        return $this->belongsToMany(Disease::class, 'evaluation_method_diseases');
+        return $this->belongsToMany(Disease::class, 'disease_evaluation_methods');
     }
 }

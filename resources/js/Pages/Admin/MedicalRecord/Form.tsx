@@ -136,7 +136,7 @@ export default function Form(props: Props) {
                   ], // Add the columns property here
                   data: props.symptoms, // Add the data property here
                   state: {
-                    rowSelection: (form.formState.defaultValues?.symptoms_arr as number[])?.reduce((acc, it) => {
+                    rowSelection: (form.getValues('symptoms_arr') as number[])?.reduce((acc, it) => {
                       acc[it as number] = true;
                       return acc;
                     }, {} as Record<number, boolean>) ?? {},

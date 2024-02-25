@@ -214,7 +214,7 @@ class MedicalRecordController extends Controller
     private function detailedData(MedicalRecord $medicalRecord): MedicalRecord
     {
         // Mengambil data penyakit yang terkait dengan rekam medis
-        $medicalRecord->load(['diseaseRecords.disease.treatments', 'diseaseRecords.disease.subDiseases', 'diseaseRecords.subDiseaseRecords.subDisease.treatments', 'periodontalTissues', 'teethConditionVitalities']);
+        $medicalRecord->load(['diseaseRecords.disease.treatmentGoals','diseaseRecords.disease.successIndicators','diseaseRecords.disease.evaluationMethods','diseaseRecords.disease.treatments', 'diseaseRecords.disease.subDiseases', 'diseaseRecords.subDiseaseRecords.subDisease.treatments', 'periodontalTissues', 'teethConditionVitalities']);
 
         // Mengambil data gejala yang terkait dengan rekam medis
 
@@ -222,13 +222,13 @@ class MedicalRecordController extends Controller
         {
             return $item->subDiseaseRecords->map(function ($item)
             {
-                return $item->subDisease;
+                return $item->subDisease->load(['treatments']);
             })->sortBy('id');
         })->flatten()->unique('id')->values()->sortBy('disease_id');
 
         $diseases = $medicalRecord->diseaseRecords->map(function ($item)
         {
-            return $item->disease;
+            return $item->disease->load(['treatments']);
         })->unique('id')->values();
 
 
@@ -266,6 +266,7 @@ class MedicalRecordController extends Controller
 
             return $item;
         })->sortBy('disease_id')->values()->unique('id');
+
 
         // Mengambil data rencana perawatan yang terkait dengan rekam medis
 
@@ -328,6 +329,38 @@ class MedicalRecordController extends Controller
         // sort disease records by disease_id
 
         $medicalRecord->diseaseRecords = $medicalRecord->diseaseRecords->sortBy('disease_id')->values();
+
+        // memperbarui data symtopms yang terkait disease records
+
+        $medicalRecord->symptoms = $medicalRecord->symptoms->map(function ($item) use ($medicalRecord)
+        {
+
+            $item->diseaseRecords = $medicalRecord->diseaseRecords->filter(function ($value) use ($item)
+            {
+                return $value->disease_id == $item->disease_id;
+            });
+
+            return $item;
+        });
+
+        // memperbarui data disease records yang terkait treatments
+        $medicalRecord->diseaseRecords = $medicalRecord->diseaseRecords->map(function ($item) use ($medicalRecord)
+        {
+            $item->treatments = $medicalRecord->treatments->filter(function ($value) use ($item)
+            {
+                return $value->disease_id == $item->disease_id;
+            })->merge($item->subDiseaseRecords->map(function ($value) use ($medicalRecord)
+            {
+                return $medicalRecord->treatments->filter(function ($item) use ($value)
+                {
+                    return $item->disease_id == $value->subDisease->disease_id;
+                });
+            })->flatten())->unique('id')->values();
+
+            
+
+            return $item;
+        });
 
         return $medicalRecord;
 
@@ -408,8 +441,9 @@ class MedicalRecordController extends Controller
         //     'REGION' => $REGION,
         // ]);
 
-        // return $pdf->download('medical-record.pdf');
+        // dd($medicalRecord);
 
+        // return $pdf->download('medical-record.pdf');
         return view('exports.exportMedicalRecord', [
             'medicalRecord' => $medicalRecord,
             'REGION' => $REGION,

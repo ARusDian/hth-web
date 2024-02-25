@@ -76,4 +76,19 @@ class Disease extends Model
     {
         return $this->belongsToMany(Treatment::class, 'disease_treatments');
     }
+
+    public function treatmentGoals()
+    {
+        return $this->belongsToMany(TreatmentGoal::class, 'disease_treatment_goals');
+    }
+
+    public function successIndicators()
+    {
+        return $this->belongsToMany(SuccessIndicator::class, 'disease_success_indicators');
+    }
+
+    public function evaluationMethods()
+    {
+        return $this->belongsToMany(EvaluationMethod::class, 'disease_evaluation_methods');
+    }
 }

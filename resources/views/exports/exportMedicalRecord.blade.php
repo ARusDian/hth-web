@@ -791,7 +791,7 @@
                                                     {{ $subDiseaseRecord->region
                                                         ? ' : ' . join(', ', $subDiseaseRecord->region)
                                                         : '
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    : Belum Pilih Region' }}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            : Belum Pilih Region' }}
                                                 </b>
                                             </li>
                                         @endforeach
@@ -851,6 +851,155 @@
                 <p class='text-sm font-semibold'>
                     * Rencana perawatan semakin lengkap jika semua penyakit telah dipilih sub penyakitnya.
                 </p>
+            </div>
+            <div class="page-break-before">
+                <p class="text-xl font-bold text-center">PENGKAJIAN</p>
+                <table class="border border-black w-full table">
+                    <thead>
+                        <tr class="border border-black">
+                            <th class="border border-black">Tanda dan Gejala</th>
+                            <th class="border border-black">Penyakit</th>
+                            <th class="border border-black">Masalah</th>
+                            <th class="border border-black">Kemungkinan Penyebab Masalah</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($medicalRecord->symptoms as $item)
+                            <tr class="border border-black">
+                                <td class="border border-black">{{ $item->description }}</td>
+                                <td class="border border-black">
+                                    @foreach ($item->diseaseRecords as $disease)
+                                        <ul>
+                                            @foreach ($disease->subDiseaseRecords as $subDisease)
+                                                <li>{{ $disease->disease->name }}
+                                                    {{ $subDisease->subDisease->name }}</li>
+                                            @endforeach
+                                        </ul>
+                                    @endforeach
+                                </td>
+                                <td class="border border-black">
+                                    @foreach ($item->diseaseRecords as $record)
+                                        <ul>
+                                            <li>{{ $record->disease->problem }}</li>
+                                        </ul>
+                                    @endforeach
+                                </td>
+                                <td class="border border-black">
+                                    @foreach ($item->diseaseRecords as $record)
+                                        <ul>
+                                            @foreach ($record->disease->reasons as $reason)
+                                                <li>{{ $reason->description }}</li>
+                                            @endforeach
+                                        </ul>
+                                    @endforeach
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="page-break-before">
+                <p class="text-xl font-bold text-center">DIAGNOSA ASUHAN KESEHATAN GIGI DAN MULUT</p>
+                <table class="border border-black w-full table">
+                    <thead>
+                        <tr class="border border-black">
+                            <th class="border border-black">Data</th>
+                            <th class="border border-black">Masalah</th>
+                            <th class="border border-black">Kemungkinan Penyebab Masalah</th>
+                            <th class="border border-black">Diagnosa</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($medicalRecord->diseaseRecords as $record)
+                            <tr class="border border-black">
+                                <td class="border border-black">
+                                    <ul>
+                                        @foreach ($record->subDiseaseRecords as $subDisease)
+                                            <li>{{ $record->disease->name }}
+                                                {{ $subDisease->subDisease->name }}
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </td>
+                                <td class="border border-black">
+                                    <ul>
+                                        <li>{{ $record->disease->problem }}</li>
+                                    </ul>
+                                </td>
+                                <td class="border border-black">
+                                    <ul>
+                                        @foreach ($record->disease->reasons as $reason)
+                                            <li>{{ $reason->description }}</li>
+                                        @endforeach
+                                    </ul>
+                                </td>
+                                <td class="border border-black">
+                                    <ul>
+                                        <li>{{ $record->disease->diagnosis }}</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="page-break-before">
+                <p class="text-xl font-bold text-center">PERENCANAAN INTERVENSI</p>
+                <table class="border border-black w-full table">
+                    <thead>
+                        <tr class="border border-black">
+                            <th class="border border-black">Penyakit</th>
+                            <th class="border border-black">Rencana Perawatan</th>
+                            <th class="border border-black">Tujuan Perawatan</th>
+                            <th class="border border-black">Indikator Keberhasilan</th>
+                            <th class="border border-black">Metode Evaluasi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($medicalRecord->diseaseRecords as $record)
+                            <tr class="border border-black">
+                                <td class="border border-black">
+                                    <ul>
+                                        @foreach ($record->subDiseaseRecords as $subDisease)
+                                            <li>{{ $record->disease->name }}
+                                                {{ $subDisease->subDisease->name }}
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </td>
+                                <td class="border border-black">
+                                    <ul>
+                                        @foreach ($record->treatments as $item)
+                                            <li>{{ $item->description }}</li>
+                                        @endforeach
+
+                                    </ul>
+                                </td>
+                                <td class="border border-black">
+                                    <ul>
+                                        @foreach($record->disease->treatmentGoals as $item)
+                                            <li>{{ $item->name }}</li>
+                                        @endforeach
+                                    </ul>
+                                </td>
+                                <td class="border border-black">
+                                    <ul>
+                                        @foreach($record->disease->successIndicators as $item)
+                                            <li>{{ $item->name }}</li>
+                                        @endforeach
+                                    </ul>
+                                </td>
+                                <td class="border border-black">
+                                    <ul>
+                                        @foreach($record->disease->evaluationMethods as $item)
+                                            <li>{{ $item->name }}</li>
+                                        @endforeach
+                                    </ul>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
         </header>
