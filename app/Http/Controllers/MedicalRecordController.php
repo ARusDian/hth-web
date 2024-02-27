@@ -214,7 +214,7 @@ class MedicalRecordController extends Controller
     private function detailedData(MedicalRecord $medicalRecord): MedicalRecord
     {
         // Mengambil data penyakit yang terkait dengan rekam medis
-        $medicalRecord->load(['diseaseRecords.disease.treatmentGoals','diseaseRecords.disease.successIndicators','diseaseRecords.disease.evaluationMethods','diseaseRecords.disease.treatments', 'diseaseRecords.disease.subDiseases', 'diseaseRecords.subDiseaseRecords.subDisease.treatments', 'periodontalTissues', 'teethConditionVitalities']);
+        $medicalRecord->load(['diseaseRecords.disease.treatmentGoals', 'diseaseRecords.disease.successIndicators', 'diseaseRecords.disease.evaluationMethods', 'diseaseRecords.disease.treatments', 'diseaseRecords.disease.subDiseases', 'diseaseRecords.subDiseaseRecords.subDisease.treatments', 'periodontalTissues', 'teethConditionVitalities']);
 
         // Mengambil data gejala yang terkait dengan rekam medis
 
@@ -330,34 +330,16 @@ class MedicalRecordController extends Controller
 
         $medicalRecord->diseaseRecords = $medicalRecord->diseaseRecords->sortBy('disease_id')->values();
 
-        // memperbarui data symtopms yang terkait disease records
-
-        $medicalRecord->symptoms = $medicalRecord->symptoms->map(function ($item) use ($medicalRecord)
-        {
-
-            $item->diseaseRecords = $medicalRecord->diseaseRecords->filter(function ($value) use ($item)
-            {
-                return $value->disease_id == $item->disease_id;
-            });
-
-            return $item;
-        });
-
         // memperbarui data disease records yang terkait treatments
         $medicalRecord->diseaseRecords = $medicalRecord->diseaseRecords->map(function ($item) use ($medicalRecord)
         {
-            $item->treatments = $medicalRecord->treatments->filter(function ($value) use ($item)
+            $item->treatments = $item->disease->treatments->unique('id')->values()
+            ->merge($item->subDiseaseRecords->map(function ($item)
             {
-                return $value->disease_id == $item->disease_id;
-            })->merge($item->subDiseaseRecords->map(function ($value) use ($medicalRecord)
-            {
-                return $medicalRecord->treatments->filter(function ($item) use ($value)
-                {
-                    return $item->disease_id == $value->subDisease->disease_id;
-                });
-            })->flatten())->unique('id')->values();
+                return $item->subDisease->treatments;
+            })->flatten()->unique('id')->values());
 
-            
+
 
             return $item;
         });

@@ -791,7 +791,7 @@
                                                     {{ $subDiseaseRecord->region
                                                         ? ' : ' . join(', ', $subDiseaseRecord->region)
                                                         : '
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                : Belum Pilih Region' }}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                : Belum Pilih Region' }}
                                                 </b>
                                             </li>
                                         @endforeach
@@ -803,8 +803,8 @@
                                         </ul>
                                     @endif
                                 @endif
+                            </li>
                         @endforeach
-                        </li>
 
                     </ol>
                 </div>
@@ -864,36 +864,62 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($medicalRecord->symptoms as $item)
+                        @foreach ($medicalRecord->diseaseRecords as $record)
                             <tr class="border border-black">
-                                <td class="border border-black">{{ $item->description }}</td>
                                 <td class="border border-black">
-                                    @foreach ($item->diseaseRecords as $disease)
-                                        <ul>
-                                            @foreach ($disease->subDiseaseRecords as $subDisease)
-                                                <li>{{ $disease->disease->name }}
-                                                    {{ $subDisease->subDisease->name }}</li>
-                                            @endforeach
-                                        </ul>
-                                    @endforeach
+                                    <ul>
+                                        @foreach ($record->disease->symptoms as $symptom)
+                                            <li>{{ $symptom->description }}</li>
+                                        @endforeach
+                                    </ul>
                                 </td>
                                 <td class="border border-black">
-                                    @foreach ($item->diseaseRecords as $record)
-                                        <ul>
-                                            <li>{{ $record->disease->problem }}</li>
-                                        </ul>
-                                    @endforeach
+                                    <ul>
+                                        <li><b>{{ $record->disease->name }}</b>
+                                            <b>
+                                                {{ isset($record->disease->subDiseases) && count($record->disease->subDiseases) < 1
+                                                    ? ($record->region
+                                                        ? ' : ' . join(', ', $record->region)
+                                                        : ' : Belum Pilih Region')
+                                                    : '' }}
+                                            </b>
+                                            @if (isset($record->subDiseaseRecords) && count($record->subDiseaseRecords) > 0)
+                                                <ul>
+                                                    @foreach ($record->subDiseaseRecords as $subDiseaseRecord)
+                                                        <li>{{ $subDiseaseRecord->subDisease->name }}
+                                                            <p>
+                                                                <b>
+                                                                    {{ $subDiseaseRecord->region
+                                                                        ? ' - ' . join(', ', $subDiseaseRecord->region)
+                                                                        : '
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            : Belum Pilih Region' }}
+                                                                </b>
+                                                            </p>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            @else
+                                                @if (isset($record->disease->subDiseases) && count($record->disease->subDiseases) > 0)
+                                                    <ul>
+                                                        <li>Belum Pilih Sub Penyakit</li>
+                                                    </ul>
+                                                @endif
+                                            @endif
+                                        </li>
+                                    </ul>
                                 </td>
                                 <td class="border border-black">
-                                    @foreach ($item->diseaseRecords as $record)
-                                        <ul>
-                                            @foreach ($record->disease->reasons as $reason)
-                                                <li>{{ $reason->description }}</li>
-                                            @endforeach
-                                        </ul>
-                                    @endforeach
+                                    <ul>
+                                        <li>{{ $record->disease->problem }}</li>
+                                    </ul>
                                 </td>
-                            </tr>
+                                <td class="border border-black">
+                                    <ul>
+                                        @foreach ($record->disease->reasons as $reason)
+                                            <li>{{ $reason->description }}</li>
+                                        @endforeach
+                                    </ul>
+                                </td>
                         @endforeach
                     </tbody>
                 </table>
@@ -914,11 +940,23 @@
                             <tr class="border border-black">
                                 <td class="border border-black">
                                     <ul>
-                                        @foreach ($record->subDiseaseRecords as $subDisease)
-                                            <li>{{ $record->disease->name }}
-                                                {{ $subDisease->subDisease->name }}
-                                            </li>
-                                        @endforeach
+                                        <b>
+                                            {{ $record->disease->name }}
+                                        </b>
+                                        @if (isset($record->subDiseaseRecords) && count($record->subDiseaseRecords) > 0)
+                                            <ul>
+                                                @foreach ($record->subDiseaseRecords as $subDiseaseRecord)
+                                                    <li>- {{ $subDiseaseRecord->subDisease->name }}
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        @else
+                                            @if (isset($record->disease->subDiseases) && count($record->disease->subDiseases) > 0)
+                                                <ul>
+                                                    <li>Belum Pilih Sub Penyakit</li>
+                                                </ul>
+                                            @endif
+                                        @endif
                                     </ul>
                                 </td>
                                 <td class="border border-black">
@@ -960,11 +998,23 @@
                             <tr class="border border-black">
                                 <td class="border border-black">
                                     <ul>
-                                        @foreach ($record->subDiseaseRecords as $subDisease)
-                                            <li>{{ $record->disease->name }}
-                                                {{ $subDisease->subDisease->name }}
-                                            </li>
-                                        @endforeach
+                                        <b>
+                                            {{ $record->disease->name }}
+                                        </b>
+                                        @if (isset($record->subDiseaseRecords) && count($record->subDiseaseRecords) > 0)
+                                            <ul>
+                                                @foreach ($record->subDiseaseRecords as $subDiseaseRecord)
+                                                    <li>- {{ $subDiseaseRecord->subDisease->name }}
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        @else
+                                            @if (isset($record->disease->subDiseases) && count($record->disease->subDiseases) > 0)
+                                                <ul>
+                                                    <li>Belum Pilih Sub Penyakit</li>
+                                                </ul>
+                                            @endif
+                                        @endif
                                     </ul>
                                 </td>
                                 <td class="border border-black">
@@ -972,7 +1022,6 @@
                                         @foreach ($record->treatments as $item)
                                             <li>{{ $item->description }}</li>
                                         @endforeach
-
                                     </ul>
                                 </td>
                                 <td class="border border-black">
