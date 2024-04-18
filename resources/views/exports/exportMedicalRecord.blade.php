@@ -103,11 +103,6 @@
                         <td>:</td>
                         <td>{{ $medicalRecord->family_phone_number ?? '-' }}</td>
                     </tr>
-                    <tr>
-                        <td>Tanggal Pemeriksaan</td>
-                        <td>:</td>
-                        <td>{{ $medicalRecord->created_at }}</td>
-                    </tr>
                 </table>
             </div>
             <div class="w-full">
